@@ -28,6 +28,15 @@ sudo yum clean all && sudo yum makecache
 
 sudo yum install -y mongodb-org
 
+# https://tongblog.us/blogs/0013
+# 允许远程访问
+sudo sed -ri 's/bindIp: 127.0.0.1/bindIp: 0.0.0.0/g' /etc/mongod.conf
+
 sudo systemctl enable mongod
+
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+
+
 
 
