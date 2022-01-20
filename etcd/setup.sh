@@ -15,7 +15,7 @@ if [ -f "${CFG}" ]; then
 fi
 
 sudo systemctl enable etcd
-sudo systemctl start etcd
+sudo systemctl start etcd &
 
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
