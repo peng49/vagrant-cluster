@@ -9,4 +9,5 @@
 |[mysql-cluster](./mysql-cluster)|mysql集群搭建(一主二从)||
 |[etcd](./etcd)|etcd||
 |[harbor](./harbor)|harbor镜像仓库||
+|[keepalived](./keepalived)|Keepalived高可用示例||
 
