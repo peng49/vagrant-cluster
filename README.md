@@ -7,5 +7,6 @@
 |[elk](./elk)|ELK单机环境搭建|192.165.33.11|
 |[mysql](./mysql)|mysql环境搭建|192.165.33.12|
 |[mysql-cluster](./mysql-cluster)|mysql集群搭建(一主二从)||
-|[etcd-cluster](./etcd-cluster)|etcd集群搭建||
+|[etcd](./etcd)|etcd||
+|[harbor](./harbor)|harbor镜像仓库||
 
