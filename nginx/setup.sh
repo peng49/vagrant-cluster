@@ -35,6 +35,12 @@ sudo bash -c 'cat <<EOL > /usr/share/nginx/html/index.html
 </html>
 EOL'
 
+
+CFG=/vagrant/${HOSTNAME}.conf
+if [ -f "${CFG}" ]; then
+  sudo mv -f "${CFG}" /etc/nginx/conf.d/8080.conf
+fi
+
 sudo systemctl start nginx &
 
 sudo systemctl enable nginx
