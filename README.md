@@ -10,4 +10,5 @@
 |[etcd](./etcd)|etcd||
 |[harbor](./harbor)|harbor镜像仓库||
 |[keepalived](./keepalived)|Keepalived高可用示例||
+|[nginx](./nginx)|nginx负载均衡||
 
