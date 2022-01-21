@@ -38,7 +38,7 @@ EOL'
 
 CFG=/vagrant/${HOSTNAME}.conf
 if [ -f "${CFG}" ]; then
-  sudo mv -f "${CFG}" /etc/nginx/conf.d/8080.conf
+  sudo cp -f "${CFG}" /etc/nginx/conf.d/8080.conf
 fi
 
 sudo systemctl start nginx &
