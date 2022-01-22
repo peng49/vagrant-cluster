@@ -11,7 +11,7 @@ sudo yum install -y etcd
 
 CFG=/vagrant/${HOSTNAME}.conf
 if [ -f "${CFG}" ]; then
-  sudo mv -f "${CFG}" /etc/etcd/etcd.conf
+  sudo cp -f "${CFG}" /etc/etcd/etcd.conf
 fi
 
 sudo systemctl enable etcd
