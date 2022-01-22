@@ -25,7 +25,7 @@ EOF'
 
 sudo yum clean all && sudo yum makecache
 
-sudo yum install -y nginx keepalived
+sudo yum install -y nginx ipvsadm lvm2 keepalived
 
 # 根据主机名生成不同的 nginx index.html
 sudo bash -c 'cat <<EOL > /usr/share/nginx/html/index.html
@@ -35,9 +35,17 @@ sudo bash -c 'cat <<EOL > /usr/share/nginx/html/index.html
 </html>
 EOL'
 
+CFG=/vagrant/${HOSTNAME}.conf
+if [ -f "${CFG}" ]; then
+  sudo mv -f /etc/keepalived/keepalived.conf /etc/keepalived/keepalived.conf.old
+  sudo cp -f "${CFG}" /etc/keepalived/keepalived.conf
+fi
+
 sudo systemctl start nginx &
+sudo systemctl start keepalived &
 
 sudo systemctl enable nginx
+sudo systemctl enable keepalived
 
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
