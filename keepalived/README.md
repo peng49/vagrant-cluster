@@ -4,6 +4,10 @@
 
 [【Nginx】如何实现Nginx的高可用负载均衡？看完我也会了！！](https://www.cnblogs.com/binghe001/p/13378305.html)
 
+[keepalived的一些。。](https://www.cnblogs.com/gqdw/p/3558706.html)
+
+[虚拟机virtualBox 搭建 Keepalived+lvs dr+httpd 负载均衡](https://blog.csdn.net/u014695188/article/details/50986372)
+
 
 ipvsadm 三种工作模式解析?
 
