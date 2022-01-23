@@ -6,3 +6,22 @@
 
 
 ipvsadm 三种工作模式解析?
+
+
+####常用命令
+查看版本
+> keepalived -v
+
+查看日志
+
+[Linux Systemd 查看日志](https://pdf-lib.org/home/details/9426)
+
+> sudo journalctl -u keepalived
+
+动态显示日志
+> sudo journalctl -u keepalived -f
+
+
+#### 报错处理
+[Unknown keyword 'nb_get_retry'](https://blog.csdn.net/qq_36801585/article/details/105137556)
+
