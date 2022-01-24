@@ -8,6 +8,8 @@
 
 [虚拟机virtualBox 搭建 Keepalived+lvs dr+httpd 负载均衡](https://blog.csdn.net/u014695188/article/details/50986372)
 
+[VirtualBox + CentOS + NGINX + Keepalived 初阶实战：负载均衡 + HA](https://github.com/lilins/Blog/issues/2)
+
 
 ipvsadm 三种工作模式解析?
 
