@@ -363,3 +363,15 @@ Deployment
 >   --discovery-token-ca-cert-hash sha256:c574be327af48b17d24b99fbb578fcad74ecf33b4e143d2e3070343a5c3f7e31 \
 >   --control-plane \ 
 >   --certificate-key e799a655f667fc327ab8c91f4f2541b57b96d2693ab5af96314ebddea7a68526
+
+
+####  命令自动补全
+`kubectl completion` 生成自动补全命令的脚本
+
+> kubectl completion bash > $HOME/.kube/completion.bash.inc
+
+当前bash加载自动补全脚本
+> source $HOME/.kube/completion.bash.inc
+
+在.bash_profile文件最后添加一行开机启动自动加载补全脚本
+> echo 'source $HOME/.kube/completion.bash.inc' >> ~/.bash_profile
