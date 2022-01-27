@@ -47,8 +47,14 @@ sudo systemctl start keepalived &
 sudo systemctl enable nginx
 sudo systemctl enable keepalived
 
-sudo systemctl stop firewalld
-sudo systemctl disable firewalld
+sudo systemctl enable firewalld
+sudo systemctl start firewalld
+
+sudo firewall-cmd --zone=public --add-service=http --add-service=https --permanent
+sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
+# https://b.sundayle.com/keepalived-and-firewalld/ 防火墙放开 keepalived 的通信
+sudo firewall-cmd --add-rich-rule='rule protocol value="vrrp" accept' --permanent
+sudo firewall-cmd --reload
 
 
 

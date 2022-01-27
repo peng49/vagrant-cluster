@@ -11,6 +11,12 @@
 [VirtualBox + CentOS + NGINX + Keepalived 初阶实战：负载均衡 + HA](https://github.com/lilins/Blog/issues/2)
 
 
+[通过阿里云的弹性网卡实现keepalived高可用](https://github.com/paololiu/aliyun-eni)
+[阿里云 ECS 实例是否支持安装 keepalived 配置虚拟 VIP，进行负载均衡？](https://developer.aliyun.com/ask/111822?spm=a2c6h.13159736)
+[弹性公网 IP](https://help.aliyun.com/product/61789.html)
+[弹性网卡概述](https://help.aliyun.com/document_detail/58496.html)
+
+
 ipvsadm 三种工作模式解析?
 
 
@@ -26,6 +32,16 @@ ipvsadm 三种工作模式解析?
 
 动态显示日志
 > sudo journalctl -u keepalived -f
+
+> sudo ipvsadm -Ln --stats
+
+> sudo ipvsadm -Ln --rate
+
+查看当前节点是主节点还是备节点
+
+[View Current State of Keepalived](https://serverfault.com/questions/560024/view-current-state-of-keepalived)
+> sudo journalctl -u keepalived | grep Entering
+
 
 
 #### 报错处理
