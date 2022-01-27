@@ -12,4 +12,5 @@
 |[keepalived](./keepalived)|Keepalived高可用示例||
 |[nginx](./nginx)|nginx负载均衡|192.165.43.101<br/> 192.165.43.102<br/> 192.165.43.103<br/> 负载均衡测试: 192.165.43.101:8080|
 |[supervisor](./supervisor)|supervisor进程管理测试||
+|[zabbix](./zabbix)|zabbix测试||
 
