@@ -3,6 +3,7 @@ sudo curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Ce
 
 #https://www.jianshu.com/p/2206cb265247
 sudo sed -ri 's/cloud.aliyuncs/aliyun/g' /etc/yum.repos.d/CentOS-Base.repo
+sudo sed -ri 's/aliyuncs.com/aliyun.com/g' /etc/yum.repos.d/CentOS-Base.repo
 
 sudo yum clean all && sudo yum makecache
 
@@ -21,14 +22,16 @@ else
     echo "docker user group already exists"
 fi
 
+sudo gpasswd -a $USER docker
+sudo systemctl restart docker
+
+# 设置daemon.json文件
 sudo touch /etc/docker/daemon.json
 sudo bash -c 'cat <<EOF > /etc/docker/daemon.json
 {
         "exec-opts": ["native.cgroupdriver=systemd"]
 }
 EOF'
-
-sudo gpasswd -a $USER docker
 sudo systemctl restart docker
 
 rm -rf get-docker.sh
@@ -77,17 +80,11 @@ systemctl enable docker.service
 systemctl enable kubelet.service
 
 sudo bash -c 'cat <<EOF >  /tmp/local.sh
-for i in \`kubeadm config images list\`; do
-  imageName=\${i#k8s.gcr.io/}
-  aliName=\${imageName}
-  if [ \$imageName == "coredns/coredns:v1.8.6" ]
-  then
-    aliName="coredns:v1.8.6"
-  fi
-
-  docker pull registry.aliyuncs.com/google_containers/\$aliName
-  docker tag registry.aliyuncs.com/google_containers/\$aliName k8s.gcr.io/\$imageName
-  docker rmi registry.aliyuncs.com/google_containers/\$aliName
+for name in \`kubeadm config images list\`; do
+  image=\${name//*\//}
+  docker pull peng49/\$image
+  docker tag peng49/\$image \$name
+  docker rmi peng49/\$image
 done;
 EOF'
 
