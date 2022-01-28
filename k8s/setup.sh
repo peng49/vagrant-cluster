@@ -29,12 +29,12 @@ sudo systemctl restart docker
 sudo touch /etc/docker/daemon.json
 sudo bash -c 'cat <<EOF > /etc/docker/daemon.json
 {
-      "registry-mirrors": [
-        "https://ustc-edu-cn.mirror.aliyuncs.com",
-        "https://xx4bwyg2.mirror.aliyuncs.com",
-        "http://hub-mirror.c.163.com"
-      ],
-      "exec-opts": ["native.cgroupdriver=systemd"]
+        "registry-mirrors": [
+                "https://ustc-edu-cn.mirror.aliyuncs.com",
+                "https://xx4bwyg2.mirror.aliyuncs.com",
+                "http://hub-mirror.c.163.com"
+        ],
+        "exec-opts": ["native.cgroupdriver=systemd"]
 }
 EOF'
 sudo systemctl restart docker
