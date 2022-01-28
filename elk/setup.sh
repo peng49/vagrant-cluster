@@ -48,9 +48,19 @@ type=rpm-md
 EOF'
 sudo yum install -y kibana
 
+sudo sed -i 's/#server.host:.*$/server.host: "0.0.0.0"/' /etc/kibana/kibana.yml
+
 # 安装 logstash
 # https://www.elastic.co/guide/en/logstash/current/installing-logstash.html
-> sudo yum install -y logstash
+sudo yum install -y logstash
+
+sed -i 's/# path.config:.*$/path.config: "\/etc\/logstash\/conf.d\/*.conf"/' /etc/logstash/logstash.yml
+
+sudo systemctl start elasticsearch &
+sudo systemctl start kibana &
+
+sudo systemctl enable elasticsearch
+sudo systemctl enable kibana
 
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld

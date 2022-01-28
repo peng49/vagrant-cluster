@@ -96,6 +96,21 @@ EOF'
 ## yum 安装
 > sudo yum install -y logstash
 
+修改配置
+https://discuss.elastic.co/t/problems-to-start-logstash-conf-pipelines-with-systemctl/282811
+> sed -i 's/# path.config:.*$/path.config: "\/etc\/logstash\/conf.d\/*.conf"/' /etc/logstash/logstash.yml
+
+查看logstash日志
+> sudo journalctl -u logstash.service -f
+
+
+可能报错
+logstash 没有读取nginx日志的权限
+
+添加access.log可读权限
+> sudo chmod +r /var/log/nginx/access.log
+
+
 
 [linux安装logstash7.6.1及搭建简单ELK--logstash收集nginx日志](https://www.cnblogs.com/tyhj-zxp/p/13191379.html)
 
