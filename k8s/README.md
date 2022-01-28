@@ -258,6 +258,7 @@ done;
 ## Reference
 
 [https://blog.tekspace.io/setup-kubernetes-cluster-on-centos-7/](https://blog.tekspace.io/setup-kubernetes-cluster-on-centos-7/)
+[k8s配置中的port、targetPort、nodePort和containerPort区别](https://blog.csdn.net/GuXiaoyan12/article/details/103751227)
 
 
 ## 异常
