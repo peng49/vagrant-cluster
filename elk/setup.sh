@@ -54,13 +54,49 @@ sudo sed -i 's/#server.host:.*$/server.host: "0.0.0.0"/' /etc/kibana/kibana.yml
 # https://www.elastic.co/guide/en/logstash/current/installing-logstash.html
 sudo yum install -y logstash
 
-sed -i 's/# path.config:.*$/path.config: "\/etc\/logstash\/conf.d\/*.conf"/' /etc/logstash/logstash.yml
+# 安装nginx
+sudo bash -c 'cat <<EOF > /etc/yum.repos.d/nginx.repo
+[nginx-stable]
+name=nginx stable repo
+baseurl=http://nginx.org/packages/centos/\$releasever/\$basearch/
+gpgcheck=1
+enabled=1
+gpgkey=https://nginx.org/keys/nginx_signing.key
+module_hotfixes=true
+
+[nginx-mainline]
+name=nginx mainline repo
+baseurl=http://nginx.org/packages/mainline/centos/\$releasever/\$basearch/
+gpgcheck=1
+enabled=0
+gpgkey=https://nginx.org/keys/nginx_signing.key
+module_hotfixes=true
+EOF'
+
+sudo yum install -y nginx
+
+sudo sed -i 's/# path.config:.*$/path.config: "\/etc\/logstash\/conf.d\/*.conf"/' /etc/logstash/logstash.yml
+sudo sudo cp /vagrant/logstash-conf/* /etc/logstash/conf.d/
+
+# 覆盖默认的nginx.conf配置文件,格式化日志内容
+# https://www.cnblogs.com/tyhj-zxp/p/13191379.html
+sudo mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old
+sudo cp -f /vagrant/nginx-log-json-format.conf /etc/nginx/nginx.conf
+
+# 添加文件的可读权限
+sudo chmod +r /var/log/nginx/access.log
 
 sudo systemctl start elasticsearch &
 sudo systemctl start kibana &
+sudo systemctl start logstash &
+sudo systemctl start nginx &
+
+
 
 sudo systemctl enable elasticsearch
 sudo systemctl enable kibana
+sudo systemctl enable logstash
+sudo systemctl enable nginx
 
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
