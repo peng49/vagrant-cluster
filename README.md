@@ -8,9 +8,14 @@
 |[mysql](./mysql)|mysql环境搭建|192.165.33.12|
 |[mysql-cluster](./mysql-cluster)|mysql集群搭建(一主二从)||
 |[etcd](./etcd)|etcd||
-|[harbor](./harbor)|harbor镜像仓库||
 |[keepalived](./keepalived)|Keepalived高可用示例||
 |[nginx](./nginx)|nginx负载均衡|192.165.43.101<br/> 192.165.43.102<br/> 192.165.43.103<br/> 负载均衡测试: 192.165.43.101:8080|
 |[supervisor](./supervisor)|supervisor进程管理测试||
+|[openldap](./openldap)|openldap测试||
 |[zabbix](./zabbix)|zabbix测试||
+|[harbor](./harbor)|harbor镜像仓库|192.165.33.31|
+|[gogs](./zabbix)|gogs||
+|[gitlab](./zabbix)|gitlab||
+|[jenkins](./jenkins)|jenkins||
+|[develop](./develop)|开发环境集成||
 
