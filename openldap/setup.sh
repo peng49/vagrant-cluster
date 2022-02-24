@@ -10,6 +10,11 @@ sudo yum clean all && sudo yum makecache
 # 安装openldap
 sudo yum -y install openldap*
 
+sudo systemctl start slapd
+sudo systemctl enable slapd
+
+
+
 
 
 
