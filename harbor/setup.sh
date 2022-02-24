@@ -32,11 +32,27 @@ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 sudo systemctl start docker
 sudo systemctl enable docker
 
+# 设置daemon.json文件
+sudo touch /etc/docker/daemon.json
+sudo bash -c 'cat <<EOF > /etc/docker/daemon.json
+{
+        "registry-mirrors": [
+                "https://ustc-edu-cn.mirror.aliyuncs.com",
+                "https://xx4bwyg2.mirror.aliyuncs.com",
+                "http://hub-mirror.c.163.com"
+        ]
+}
+EOF'
+sudo systemctl restart docker
+
 # 下载harbor在线安装包
 sudo curl https://github.com/goharbor/harbor/releases/download/v1.10.10/harbor-online-installer-v1.10.10.tgz -L -o harbor-online-installer-v1.10.10.tgz \
  && sudo tar -xzvf harbor-online-installer-v1.10.10.tgz -C /usr/local/
 
-# 修改harbor配置文件
+# 覆盖配置文件并执行安装脚本
+sudo mv -f /usr/local/harbor/harbor.yml /usr/local/harbor/harbor.yml.old \
+  && sudo cp -f /vagrant/harbor.yml /usr/local/harbor/harbor.yml \
+  && sudo sh /usr/local/harbor/install.sh
 
 
 
