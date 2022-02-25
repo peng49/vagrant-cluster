@@ -30,3 +30,20 @@ sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif
 sudo ldapadd -x -D "cn=ldapadm,dc=fly-develop,dc=com" -w ldap@admin -f  /vagrant/data/base.ldif
 
 
+# 禁止匿名用户访问
+sudo ldapmodify -Q -Y EXTERNAL -H ldapi:/// <<EOF
+dn: cn=config
+changetype: modify
+add: olcDisallows
+olcDisallows: bind_anon
+EOF
+
+sudo ldapmodify -Q -Y EXTERNAL -H ldapi:/// <<EOF
+dn: olcDatabase={-1}frontend,cn=config
+changetype: modify
+add: olcRequires
+olcRequires: authc
+EOF
+
+
+
