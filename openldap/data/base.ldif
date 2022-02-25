@@ -1,0 +1,17 @@
+dn: dc=fly-develop,dc=com
+dc: fly-develop
+objectClass: top
+objectClass: domain
+
+dn: cn=ldapadm,dc=fly-develop,dc=com
+objectClass: organizationalRole
+cn: ldapadm
+description: LDAP Manager
+
+dn: ou=People,dc=fly-develop,dc=com
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Group,dc=fly-develop,dc=com
+objectClass: organizationalUnit
+ou: Group
