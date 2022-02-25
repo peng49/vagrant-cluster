@@ -6,9 +6,13 @@
 
 [How to Install LDAP on CentOS 7](https://linuxhostsupport.com/blog/how-to-install-ldap-on-centos-7/)
 
+[安全注意事项](https://www.openldap.org/doc/admin24/security.html)
+
 异常处理:
 
 [Why does this ldapadd command quit with an "Invalid syntax" error?](https://serverfault.com/questions/531495/why-does-this-ldapadd-command-quit-with-an-invalid-syntax-error)
+
+[How To Change Account Passwords on an OpenLDAP Server](https://www.digitalocean.com/community/tutorials/how-to-change-account-passwords-on-an-openldap-server)
 
 
 rootDN: cn=ldapadm,dc=fly-develop,dc=com

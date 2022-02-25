@@ -15,3 +15,7 @@ ou: People
 dn: ou=Group,dc=fly-develop,dc=com
 objectClass: organizationalUnit
 ou: Group
+
+dn: cn=user01,ou=People,dc=fly-develop,dc=com
+objectClass: inetOrgPerson
+sn: user01
