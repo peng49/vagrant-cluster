@@ -18,3 +18,30 @@
 rootDN: cn=ldapadm,dc=fly-develop,dc=com
 pwd: ldap@admin
 
+
+### php代码生成ldap密码
+
+#### SSHA
+```php 
+<?php
+function ldap_ssha($password) {
+    //生成一随机字符串
+    $salt = md5(uniqid(time()));
+
+    return "{SSHA}" . base64_encode(pack('H*', sha1($password . $salt)) . $salt);
+}
+```
+
+#### MD5
+```php
+'{MD5}' . base64_encode(md5($password, true))
+```
+或者
+```php
+'{MD5}' . base64_encode(pack('H*', md5($password)))
+```
+
+#### SHA
+```php
+'{SHA}' . base64_encode(pack('H*', sha1($password))) 
+```
