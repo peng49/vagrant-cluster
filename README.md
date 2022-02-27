@@ -13,9 +13,9 @@
 |[supervisor](./supervisor)|supervisor进程管理测试||
 |[openldap](./openldap)|openldap测试||
 |[zabbix](./zabbix)|zabbix测试||
-|[harbor](./harbor)|harbor镜像仓库|192.165.33.31|
+|[harbor](./harbor)|harbor镜像仓库|192.165.34.31|
 |[gogs](./zabbix)|gogs||
-|[gitlab](./zabbix)|gitlab||
+|[gitlab](./gitlab)|gitlab||
 |[jenkins](./jenkins)|jenkins||
 |[develop](./develop)|开发环境集成||
 
