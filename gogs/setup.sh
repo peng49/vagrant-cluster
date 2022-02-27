@@ -13,11 +13,14 @@ sudo yum install -y git
 # https://gogs.io/docs/installation/install_from_binary
 # 二进制安装gogs
 sudo curl -L https://dl.gogs.io/0.12.4/gogs_0.12.4_linux_amd64.tar.gz -o gogs.tar.gz \
-  && sudo tar -xzvf gogs.tar.gz
+  && sudo tar -xzvf gogs.tar.gz -C /usr/local
 
+sudo useradd git
+sudo chown -R git:git /usr/local/gogs/
 
+sudo cp /vagrant/gogs.service /usr/lib/systemd/system/
 
-
-
+sudo systemctl start gogs
+sudo systemctl enable gogs
 
 

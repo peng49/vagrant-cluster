@@ -4,7 +4,8 @@ After=network.target
 
 [Service]
 Type=simple
-User=vagrant
+User=git
+Group=git
 ExecStart=/usr/local/gogs/gogs web
 Restart=always
 
