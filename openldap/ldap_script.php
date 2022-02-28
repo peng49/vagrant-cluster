@@ -117,6 +117,30 @@ foreach ($departments as $department) {
         $res = ldap_add($ldap, "ou={$department['id']},dc=fly-develop,dc=com", $attribute);
         var_dump($res);
     }
+
+    //todo 查询部门下对应的人员
+    $res = ldap_search($ldap,"ou={$department['id']},dc=fly-develop,dc=com","(objectClass=inetOrgPerson)",['dn']);
+    $entries = ldap_get_entries($ldap,$res);
+
+    $members = array_column($entries, 'dn');
+
+    //部门对应的组设置
+    $group = [
+        'description' => $department['name'],
+        'objectClass' => ['top', 'groupOfNames'],
+        'member' => $members
+    ];
+
+    $groupDn = "CN={$department['id']},ou={$department['id']},dc=fly-develop,dc=com";
+
+    $res = ldap_get_entries($ldap,ldap_search($ldap,$groupDn,"objectClass=groupOfNames",['dn']));
+    if (isset($res['count']) && $res['count'] > 0) {
+        // update
+        $r = ldap_modify($ldap, $groupDn, $group);
+    } else {
+        $r = ldap_add($ldap, $groupDn, $group);
+    }
+    var_dump('group',$r);
 }
 
 function ldap_ssha($password) {
@@ -138,10 +162,11 @@ foreach ($users as $user) {
         'userPassword' => ldap_ssha($user['password']),
     ];
 
-    $res = ldap_search($ldap, 'dc=fly-develop,dc=com', "(&(objectClass=inetOrgPerson)(cn={$user['username']}))", ['dn']);
+    $res = ldap_search($ldap, 'dc=fly-develop,dc=com', "(&(objectClass=inetOrgPerson)(cn={$user['username']}))", ['dn','member']);
 
     $entries = ldap_get_entries($ldap, $res);
     if ($entries && $entries['count'] > 0) {
+        var_dump($entries);
         //已存在
         var_dump($entries[0]['dn']);
         //PHP Warning:  ldap_modify(): Modify: Cannot modify object class
