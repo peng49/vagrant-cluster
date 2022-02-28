@@ -8,6 +8,8 @@
 
 [安全注意事项](https://www.openldap.org/doc/admin24/security.html)
 
+[HOWTO Install and Configure OpenLDAP for federated access on CentOS](https://github.com/ConsortiumGARR/idem-tutorials/blob/master/idem-fedops/miscellaneous/HOWTO%20Install%20and%20Configure%20OpenLDAP%20for%20federated%20access-CentOS.md)
+
 异常处理:
 
 [Why does this ldapadd command quit with an "Invalid syntax" error?](https://serverfault.com/questions/531495/why-does-this-ldapadd-command-quit-with-an-invalid-syntax-error)
