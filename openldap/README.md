@@ -10,6 +10,8 @@
 
 [HOWTO Install and Configure OpenLDAP for federated access on CentOS](https://github.com/ConsortiumGARR/idem-tutorials/blob/master/idem-fedops/miscellaneous/HOWTO%20Install%20and%20Configure%20OpenLDAP%20for%20federated%20access-CentOS.md)
 
+[启用安全组,关联属性memberOf](https://kifarunix.com/how-to-create-openldap-member-groups/)
+
 异常处理:
 
 [Why does this ldapadd command quit with an "Invalid syntax" error?](https://serverfault.com/questions/531495/why-does-this-ldapadd-command-quit-with-an-invalid-syntax-error)
