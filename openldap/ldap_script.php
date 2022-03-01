@@ -119,7 +119,7 @@ foreach ($departments as $department) {
     }
 
     //todo 查询部门下对应的人员
-    $res = ldap_search($ldap,"ou={$department['id']},dc=fly-develop,dc=com","(objectClass=inetOrgPerson)",['dn']);
+    $res = ldap_list($ldap,"ou={$department['id']},dc=fly-develop,dc=com","(objectClass=inetOrgPerson)",['dn']);
     $entries = ldap_get_entries($ldap,$res);
 
     $members = array_column($entries, 'dn');

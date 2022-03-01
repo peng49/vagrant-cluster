@@ -12,6 +12,8 @@
 
 [启用安全组,关联属性memberOf](https://kifarunix.com/how-to-create-openldap-member-groups/)
 
+[Enable memberOf attribute on an openldap server.](https://gist.github.com/dnozay/511968813c070b07bc85)
+
 异常处理:
 
 [Why does this ldapadd command quit with an "Invalid syntax" error?](https://serverfault.com/questions/531495/why-does-this-ldapadd-command-quit-with-an-invalid-syntax-error)
