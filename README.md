@@ -14,8 +14,12 @@
 |[openldap](./openldap)|openldap测试||
 |[zabbix](./zabbix)|zabbix测试||
 |[harbor](./harbor)|harbor镜像仓库|192.165.34.31|
-|[gogs](./zabbix)|gogs||
+|[gogs](./gogs)|gogs||
 |[gitlab](./gitlab)|gitlab||
 |[jenkins](./jenkins)|jenkins||
+|[postfix](./postfix)|postfix||
 |[develop](./develop)|开发环境集成||
+|[hadoop](./hadoop)|hadoop||
+|[hbase](./hbase)|hbase||
+|[seafile](./seafile)|seafile云盘||
 
