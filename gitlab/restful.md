@@ -29,7 +29,7 @@ DELETE http://192.165.34.61/api/v4/users/10?access_token=J-thifVwqhP7cA3f3-JY
 POST http://192.165.34.61/api/v4/users/10/activate?access_token=J-thifVwqhP7cA3f3-JY
 ```
 
-### 邮箱跳过审核
+### 新增用户邮箱
 ```shell
 POST http://192.165.34.61/api/v4/users/10/emails?access_token=J-thifVwqhP7cA3f3-JY
 Content-Type: application/json
@@ -45,3 +45,20 @@ Content-Type: application/json
 ```shell
 DELETE http://192.165.34.61/api/v4/users/10/emails/9?access_token=J-thifVwqhP7cA3f3-JY
 ```
+
+### 获取项目的成员
+```shell
+GET http://192.165.34.61/api/v4/projects/:id/members?access_token=J-thifVwqhP7cA3f3-JY
+```
+
+### 指定项目添加成员 access_lavel 10 => Guest 20 => Reporter 30 => Develper 40 => Maintainer
+```shell
+POST http://192.165.34.61/api/v4/projects/4/members?access_token=J-thifVwqhP7cA3f3-JY
+Content-Type: application/json
+
+{
+    "user_id": "2",
+    "access_level": 30
+}
+```
+
