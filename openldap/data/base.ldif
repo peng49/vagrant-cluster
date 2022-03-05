@@ -4,18 +4,100 @@ objectClass: top
 objectClass: domain
 
 dn: cn=ldapadm,dc=fly-develop,dc=com
+objectClass: top
 objectClass: organizationalRole
-cn: ldapadm
 description: LDAP Manager
 
-dn: ou=People,dc=fly-develop,dc=com
+dn: ou=users,dc=fly-develop,dc=com
+objectClass: top
 objectClass: organizationalUnit
-ou: People
 
-dn: ou=Group,dc=fly-develop,dc=com
+dn: ou=groups,dc=fly-develop,dc=com
+objectClass: top
 objectClass: organizationalUnit
-ou: Group
 
-dn: cn=user01,ou=People,dc=fly-develop,dc=com
+dn: ou=1,ou=users,dc=fly-develop,dc=com
+objectClass: top
+objectClass: organizationalUnit
+description: 技术部
+
+dn: ou=2,ou=users,dc=fly-develop,dc=com
+objectClass: top
+objectClass: organizationalUnit
+description: 业务部
+
+dn: ou=3,ou=users,dc=fly-develop,dc=com
+objectClass: top
+objectClass: organizationalUnit
+description: 运营部
+
+dn: cn=user01,ou=1,ou=users,dc=fly-develop,dc=com
+objectClass: top
 objectClass: inetOrgPerson
-sn: user01
+sn: sn required
+displayName	: 用户01
+userPassword: {SSHA}SE3gctr0oLiSr5VvpuRGwxfvaRkzYmY2OTdjOTUyZDgyYzRjZjMzNzM0ODc2NThjYzJjNw==
+
+dn: cn=user02,ou=1,ou=users,dc=fly-develop,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+sn: sn required
+displayName	: 用户02
+userPassword: {SSHA}SE3gctr0oLiSr5VvpuRGwxfvaRkzYmY2OTdjOTUyZDgyYzRjZjMzNzM0ODc2NThjYzJjNw==
+
+dn: cn=user03,ou=1,ou=users,dc=fly-develop,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+sn: sn required
+displayName	: 用户03
+userPassword: {SSHA}SE3gctr0oLiSr5VvpuRGwxfvaRkzYmY2OTdjOTUyZDgyYzRjZjMzNzM0ODc2NThjYzJjNw==
+
+dn: cn=user04,ou=1,ou=users,dc=fly-develop,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+sn: sn required
+displayName	: 用户04
+userPassword: {SSHA}SE3gctr0oLiSr5VvpuRGwxfvaRkzYmY2OTdjOTUyZDgyYzRjZjMzNzM0ODc2NThjYzJjNw==
+
+
+dn: cn=user05,ou=2,ou=users,dc=fly-develop,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+sn: sn required
+displayName	: 用户05
+userPassword: {SSHA}SE3gctr0oLiSr5VvpuRGwxfvaRkzYmY2OTdjOTUyZDgyYzRjZjMzNzM0ODc2NThjYzJjNw==
+
+dn: cn=user06,ou=2,ou=users,dc=fly-develop,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+sn: sn required
+displayName	: 用户06
+userPassword: {SSHA}SE3gctr0oLiSr5VvpuRGwxfvaRkzYmY2OTdjOTUyZDgyYzRjZjMzNzM0ODc2NThjYzJjNw==
+
+dn: cn=user07,ou=2,ou=users,dc=fly-develop,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+sn: sn required
+displayName	: 用户07
+userPassword: {SSHA}SE3gctr0oLiSr5VvpuRGwxfvaRkzYmY2OTdjOTUyZDgyYzRjZjMzNzM0ODc2NThjYzJjNw==
+
+dn: cn=user08,ou=3,ou=users,dc=fly-develop,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+sn: sn required
+displayName	: 用户08
+userPassword: {SSHA}SE3gctr0oLiSr5VvpuRGwxfvaRkzYmY2OTdjOTUyZDgyYzRjZjMzNzM0ODc2NThjYzJjNw==
+
+dn: cn=user09,ou=3,ou=users,dc=fly-develop,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+sn: sn required
+displayName	: 用户09
+userPassword: {SSHA}SE3gctr0oLiSr5VvpuRGwxfvaRkzYmY2OTdjOTUyZDgyYzRjZjMzNzM0ODc2NThjYzJjNw==
+
+dn: cn=user10,ou=3,ou=users,dc=fly-develop,dc=com
+objectClass: top
+objectClass: inetOrgPerson
+sn: sn required
+displayName	: 用户10
+userPassword: {SSHA}SE3gctr0oLiSr5VvpuRGwxfvaRkzYmY2OTdjOTUyZDgyYzRjZjMzNzM0ODc2NThjYzJjNw==

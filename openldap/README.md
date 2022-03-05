@@ -24,6 +24,7 @@
 rootDN: cn=ldapadm,dc=fly-develop,dc=com
 pwd: ldap@admin
 
+自动生成的其他用户密码全部为`123456`
 
 ### php代码生成ldap密码
 

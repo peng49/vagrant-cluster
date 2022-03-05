@@ -7,6 +7,12 @@ sudo sed -ri 's/aliyuncs.com/aliyun.com/g' /etc/yum.repos.d/CentOS-Base.repo
 
 sudo yum clean all && sudo yum makecache
 
+# ssh允许密码登录
+sudo sed -ri 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+# 允许root用户ssh登录
+sudo sed -ri 's/#PermitRootLogin yes/PermitRootLogin yes/g' /etc/ssh/sshd_config
+sudo systemctl restart sshd
+
 # 安装openldap
 sudo yum -y install openldap*
 
@@ -25,10 +31,6 @@ sudo chown ldap:ldap /var/lib/ldap/*
 sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
 sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif
 sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif
-
-# 添加测试数据
-sudo ldapadd -x -D "cn=ldapadm,dc=fly-develop,dc=com" -w ldap@admin -f  /vagrant/data/base.ldif
-
 
 # 禁止匿名用户访问
 sudo ldapmodify -Q -Y EXTERNAL -H ldapi:/// <<EOF
@@ -60,3 +62,6 @@ sudo sudo ldapadd -Q -Y EXTERNAL -H ldapi:/// -f /vagrant/data/refint.ldif
 # 验证新增的用户是否存在memberOf属性
 # sudo slapcat | grep member
 
+# 添加测试数据
+sudo ldapadd -x -D "cn=ldapadm,dc=fly-develop,dc=com" -w ldap@admin -f  /vagrant/data/base.ldif
+sudo ldapadd -x -D "cn=ldapadm,dc=fly-develop,dc=com" -w ldap@admin -f  /vagrant/data/groups.ldif

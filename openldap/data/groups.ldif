@@ -1,0 +1,25 @@
+dn: cn=1,ou=groups,dc=fly-develop,dc=com
+objectClass: top
+objectClass: groupOfNames
+description: 技术部
+member: cn=user01,ou=1,ou=users,dc=fly-develop,dc=com
+member: cn=user02,ou=1,ou=users,dc=fly-develop,dc=com
+member: cn=user03,ou=1,ou=users,dc=fly-develop,dc=com
+member: cn=user04,ou=1,ou=users,dc=fly-develop,dc=com
+
+dn: cn=2,ou=groups,dc=fly-develop,dc=com
+objectClass: top
+objectClass: groupOfNames
+description: 业务部
+member: cn=user05,cn=2,ou=groups,dc=fly-develop,dc=com
+member: cn=user06,cn=2,ou=groups,dc=fly-develop,dc=com
+member: cn=user07,cn=2,ou=groups,dc=fly-develop,dc=com
+
+
+dn: cn=3,ou=groups,dc=fly-develop,dc=com
+objectClass: top
+objectClass: groupOfNames
+description: 运营部
+member: cn=user08,ou=3,ou=users,dc=fly-develop,dc=com
+member: cn=user09,ou=3,ou=users,dc=fly-develop,dc=com
+member: cn=user10,ou=3,ou=users,dc=fly-develop,dc=com
