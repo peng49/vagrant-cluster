@@ -32,3 +32,6 @@ sudo systemctl start postfix
 curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh | sudo bash
 
 sudo EXTERNAL_URL="http://192.165.34.61" yum install -y gitlab-ee
+
+
+sudo cat /etc/gitlab/initial_root_password | grep ^Password
