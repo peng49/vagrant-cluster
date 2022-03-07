@@ -14,6 +14,8 @@
 
 [Enable memberOf attribute on an openldap server.](https://gist.github.com/dnozay/511968813c070b07bc85)
 
+[动态组递归用户](https://github.com/go-gitea/gitea/issues/16583)
+
 异常处理:
 
 [Why does this ldapadd command quit with an "Invalid syntax" error?](https://serverfault.com/questions/531495/why-does-this-ldapadd-command-quit-with-an-invalid-syntax-error)

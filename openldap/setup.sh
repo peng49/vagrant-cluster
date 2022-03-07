@@ -55,8 +55,8 @@ EOF
 # sudo ldapsearch -LLL -Y EXTERNAL -H ldapi:/// -b  cn=config olcDatabase | grep db
 
 # 添加 memberOf 配置
-sudo sudo ldapadd -Q -Y EXTERNAL -H ldapi:/// -f /vagrant/data/memberof.ldif
-sudo sudo ldapadd -Q -Y EXTERNAL -H ldapi:/// -f /vagrant/data/refint.ldif
+sudo ldapadd -Q -Y EXTERNAL -H ldapi:/// -f /vagrant/data/memberof.ldif
+sudo ldapadd -Q -Y EXTERNAL -H ldapi:/// -f /vagrant/data/refint.ldif
 
 
 # 验证新增的用户是否存在memberOf属性
