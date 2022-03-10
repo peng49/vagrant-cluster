@@ -14,7 +14,11 @@
 
 [Enable memberOf attribute on an openldap server.](https://gist.github.com/dnozay/511968813c070b07bc85)
 
+
 [动态组递归用户](https://github.com/go-gitea/gitea/issues/16583)
+[使用 groupOfURLs objectClass](https://github.com/osixia/docker-openldap/issues/355)
+[openldap 配置](https://gitlab.ow2.org/ldaptoolbox/openldap-initscript/-/blob/master/config-template.conf)
+[LDAP组的概念以及命令](https://blog.csdn.net/woshaguayi/article/details/116011638)
 
 异常处理:
 

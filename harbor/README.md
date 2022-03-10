@@ -1,5 +1,8 @@
-[Docker之分布式仓库Harbor部署](https://www.cnblogs.com/wangguishe/p/15466771.html)
 
+
+
+**参考链接**<br/>
+[Docker之分布式仓库Harbor部署](https://www.cnblogs.com/wangguishe/p/15466771.html) <br/>
 [在linux上离线安装harbor的docker 私有仓库](https://blog.csdn.net/muzizongheng/article/details/105286453)
 
 [Harbor Installation and Configuration](https://goharbor.io/docs/2.4.0/install-config/)
