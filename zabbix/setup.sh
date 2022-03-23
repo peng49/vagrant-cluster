@@ -52,7 +52,51 @@ then
   EOF'
   sudo systemctl restart docker
 
-  sudo docker run -d --name zabbix-server -it zabbix/zabbix-web-nginx-mysql:latest
+  # create network
+  sudo docker network create zabbix-net
+
+  # mysql-server
+  sudo docker run --name mysql-server \
+    --network zabbix-net \
+    -e MYSQL_ROOT_PASSWORD=Admin@123 \
+    -e MYSQL_DATABASE="zabbix" \
+    -p 3306:3306 \
+    --restart always \
+    -d mysql:8.0.27 \
+    --character-set-server=utf8 --collation-server=utf8_bin
+
+  # 启动 Zabbix Java 网关实例
+  sudo docker run --name zabbix-java-gateway -t \
+          --network=zabbix-net \
+          --restart unless-stopped \
+          -d zabbix/zabbix-java-gateway:6.0-ubuntu-latest
+
+  # zabbix-server
+  sudo docker run --name zabbix-server-mysql -t \
+        -e DB_SERVER_HOST="mysql-server" \
+        -e MYSQL_DATABASE="zabbix" \
+        -e MYSQL_USER="root" \
+        -e MYSQL_PASSWORD="Admin@123" \
+        -e MYSQL_ROOT_PASSWORD="Admin@123" \
+        -e ZBX_JAVAGATEWAY="zabbix-java-gateway" \
+        --network=zabbix-net \
+        -p 10051:10051 \
+        --restart unless-stopped \
+        -d zabbix/zabbix-server-mysql
+
+  # zabbix-web
+  sudo docker run --name zabbix-web-nginx-mysql \
+    --network zabbix-net \
+    --restart unless-stopped \
+    -e DB_SERVER_HOST="mysql-server" \
+    -e MYSQL_USER="root" \
+    -e MYSQL_PASSWORD="Admin@123" \
+    -e MYSQL_DATABASE="zabbix" \
+    -e ZBX_SERVER_HOST="zabbix-server-mysql" \
+    -e PHP_TZ="Asin/Shanghai" \
+    -p 8080:8080 \
+    -p 8443:8443 \
+    -d zabbix/zabbix-web-nginx-mysql:6.0-ubuntu-latest
 fi
 
 
