@@ -82,7 +82,7 @@ then
         --network=zabbix-net \
         -p 10051:10051 \
         --restart unless-stopped \
-        -d zabbix/zabbix-server-mysql
+        -d zabbix/zabbix-server-mysql:6.0-ubuntu-latest
 
   # zabbix-web
   sudo docker run --name zabbix-web-nginx-mysql \
@@ -93,7 +93,7 @@ then
     -e MYSQL_PASSWORD="Admin@123" \
     -e MYSQL_DATABASE="zabbix" \
     -e ZBX_SERVER_HOST="zabbix-server-mysql" \
-    -e PHP_TZ="Asin/Shanghai" \
+    -e PHP_TZ="Asia/Shanghai" \
     -p 8080:8080 \
     -p 8443:8443 \
     -d zabbix/zabbix-web-nginx-mysql:6.0-ubuntu-latest
