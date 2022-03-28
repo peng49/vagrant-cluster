@@ -15,6 +15,14 @@ sudo sed -ri 's/#PermitRootLogin yes/PermitRootLogin yes/g' /etc/ssh/sshd_config
 sudo systemctl restart sshd
 
 
+# 设置时区并同步网络时间 https://www.cnblogs.com/ifme/p/12856236.html
+sudo yum install -y ntp && \
+  sudo systemctl enable ntpd && \
+  sudo systemctl start ntpd && \
+  sudo timedatectl set-timezone Asia/Shanghai && \
+  sudo timedatectl set-ntp yes
+
+
 
 if [ ${HOSTNAME} == 'zabbix' ];
 then
@@ -69,6 +77,7 @@ then
   sudo docker run --name zabbix-java-gateway -t \
           --network=zabbix-net \
           --restart unless-stopped \
+          -p 10052:10052 \
           -d zabbix/zabbix-java-gateway:6.0-ubuntu-latest
 
   # zabbix-server
