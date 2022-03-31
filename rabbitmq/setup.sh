@@ -49,14 +49,23 @@ sudo systemctl restart docker
 
 
 # 可用插件设置,增加 rabbitmq_auth_backend_ldap 使用ldap认证
-sudo cp -rf /vagrant/etc /opt/rabbitmq/etc
+sudo mkdir /opt/rabbitmq/etc -p
+sudo cp -rf /vagrant/etc/* /opt/rabbitmq/etc/
 
 # 启动rabbitmq
 sudo docker run -it -d \
     --name rabbitmq \
+    --restart always \
     -p 5672:5672 \
     -p 15672:15672 \
     -e RABBITMQ_DEFAULT_USER=guest \
     -e RABBITMQ_DEFAULT_PASS=guest \
     -v /opt/rabbitmq/etc/rabbitmq:/etc/rabbitmq \
     rabbitmq:3.9-management
+
+# 添加vhost
+sudo docker exec rabbitmq rabbitmqctl add_vhost 'vhost'
+# 添加新用户test,密码设置为test
+sudo docker exec rabbitmq rabbitmqctl add_user 'test' 'test'
+# 为test 设置vhost的可配置，可读，可写权限
+sudo docker exec rabbitmq rabbitmqctl set_permissions --vhost 'vhost' 'test' '.*' '.*' '.*'
