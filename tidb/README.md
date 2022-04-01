@@ -1,0 +1,1 @@
+[TiDB 概述和整体架构](https://zhuanlan.zhihu.com/p/409413038)
