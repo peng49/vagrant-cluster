@@ -194,14 +194,14 @@ Zend Engine v3.3.29, Copyright (c) 1998-2018 Zend Technologies
         $q->bind($exchange->getName(), $q->getName());
 
         for ($i = 0; $i < 20; $i++) {
-            if ($i > 10) {
+            if ($i > 9) {
                 $exchange->publish(strval($i), 'ttl.queue', AMQP_DURABLE);
             } else {
                 $exchange->publish(strval($i), 'ttl.queue', AMQP_DURABLE, [
                     //设置消息的过期时间为20秒，推送之后20秒可以看到有10条消息通过 dlx.exchange 进入 dlx.queue
                     //60秒后剩下的消息过期，全部进入 dlx.queue 队列
                     'expiration' => 20000,
-                    'delivery_mode' => 2
+                    'delivery_mode' => 2 //2 持久化(Persistent) 1 不持久化(Non-persistent)
                 ]);
             }
         }
