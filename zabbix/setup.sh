@@ -27,14 +27,15 @@ sudo yum install -y ntp && \
 if [ ${HOSTNAME} == 'zabbix' ];
 then
   # 安装最新版本的docker,harbor 依赖docker构建
-  sudo yum remove docker \
-                    docker-client \
-                    docker-client-latest \
-                    docker-common \
-                    docker-latest \
-                    docker-latest-logrotate \
-                    docker-logrotate \
-                    docker-engine
+
+#  sudo yum remove -y docker \
+#                    docker-client \
+#                    docker-client-latest \
+#                    docker-common \
+#                    docker-latest \
+#                    docker-latest-logrotate \
+#                    docker-logrotate \
+#                    docker-engine
 
   sudo yum install -y yum-utils
   sudo yum-config-manager \
