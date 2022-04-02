@@ -5,6 +5,7 @@
 |[mongodb](./mongodb)|mongodb单节点搭建|192.165.33.10|
 |[mongodb-replset](./mongodb-replset)|mongodb 复制集搭建|192.165.33.20 <br/> 192.165.33.21<br/> 192.165.33.22|
 |[elk](./elk)|ELK单机环境搭建|192.165.33.11|
+|[efk](./efk)|EFK||
 |[mysql](./mysql)|mysql环境搭建|192.165.33.12|
 |[mysql-cluster](./mysql-cluster)|mysql集群搭建(一主二从)||
 |[etcd](./etcd)|etcd||
@@ -22,5 +23,11 @@
 |[hadoop](./hadoop)|hadoop||
 |[hbase](./hbase)|hbase||
 |[seafile](./seafile)|seafile云盘||
+|[canal](./canal)|mysql数据同步到elasticsearch|mysql:192.168.150.120<br/> canal:192.168.150.121<br/> elasticsearch:192.168.150.122<br/>|
+|[rabbitmq](./rabbitmq)|rabbitmq||
+|[activemq](./activemq)|activemq||
+|[kafka](./kafka)|kafka||
+|[tidb](./tidb)|tidb||
+
 
 
