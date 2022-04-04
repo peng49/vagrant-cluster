@@ -46,6 +46,7 @@ sudo curl -L https://github.com/mfreiholz/iF.SVNAdmin/archive/refs/tags/stable-1
 sudo mkdir /var/www/svnadmin -p && \
   sudo tar -xzvf iF.SVNAdmin.tar.gz && \
   sudo mv iF.SVNAdmin-stable-1.6.2/* /var/www/svnadmin/ && \
+  sudo rm iF.SVNAdmin-stable-1.6.2/ -rf && \
   sudo chown nginx:nginx -R /var/www/svnadmin/ && \
   sudo chmod -R 777 /var/www/svnadmin/data
 
@@ -84,4 +85,4 @@ WantedBy=multi-user.target
 EOF'
 
 sudo systemctl start svnserve.service
-sudo systemctl enabled svnserve.service
+sudo systemctl enable svnserve.service
