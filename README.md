@@ -24,7 +24,7 @@
 |[hbase](./hbase)|hbase||
 |[seafile](./seafile)|seafile云盘||
 |[canal](./canal)|mysql数据同步到elasticsearch|mysql:192.168.150.120<br/> canal:192.168.150.121<br/> elasticsearch:192.168.150.122<br/>|
-|[rabbitmq](./rabbitmq)|rabbitmq||
+|[rabbitmq](./rabbitmq)|rabbitmq|192.165.34.71 <br/> web地址:192.165.34.71:15672|
 |[activemq](./activemq)|activemq||
 |[kafka](./kafka)|kafka||
 |[tidb](./tidb)|tidb||

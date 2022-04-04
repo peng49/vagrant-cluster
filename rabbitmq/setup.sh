@@ -63,6 +63,9 @@ sudo docker run -it -d \
     -v /opt/rabbitmq/etc/rabbitmq:/etc/rabbitmq \
     rabbitmq:3.9-management
 
+# 暂停10秒执行,确保rabbitmq服务已启动
+sudo sleep 10
+
 # 添加vhost
 sudo docker exec rabbitmq rabbitmqctl add_vhost 'vhost'
 # 添加新用户test,密码设置为test
