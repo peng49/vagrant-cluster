@@ -1,31 +1,47 @@
 #! /bin/sh
+# install docker
+sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
 
-# https://stackoverflow.com/questions/70993613/unable-to-install-mysql-on-centos7
-sudo yum remove -y mysql80-community-release.noarch
-sudo yum clean all --verbose
+sudo yum install -y yum-utils
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
 
-sudo rpm -Uvh https://dev.mysql.com/get/mysql80-community-release-el7-5.noarch.rpm
+sudo yum install -y docker-ce docker-ce-cli containerd.io
 
-sudo sed -i 's/enabled=1/enabled=0/' /etc/yum.repos.d/mysql-community.repo
+# start docker
+sudo systemctl start docker
+sudo systemctl enable docker
 
-sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+# 设置daemon.json文件
+sudo touch /etc/docker/daemon.json
+sudo bash -c 'cat <<EOF > /etc/docker/daemon.json
+{
+        "registry-mirrors": [
+                "https://ustc-edu-cn.mirror.aliyuncs.com",
+                "https://xx4bwyg2.mirror.aliyuncs.com",
+                "http://hub-mirror.c.163.com"
+        ]
+}
+EOF'
+sudo systemctl restart docker
 
-sudo yum --enablerepo=mysql80-community install -y mysql-community-server
+sudo docker run -it -d \
+    --name mysql \
+    -p 3306:3306 \
+    -e MYSQL_ROOT_PASSWORD=root@123 \
+    mysql:8.0.25
 
-sudo systemctl start mysqld.service
-sudo systemctl enable mysqld.service
-
-sudo grep "password" /var/log/mysqld.log
-
-# 重置密码为 Acm@123$
-password=$(sudo grep "password" /var/log/mysqld.log | sed -e 's/^.*: //g')
-echo "alter user 'root'@'localhost' identified with mysql_native_password by 'Acm@123$';" > reset.sql
-# 添加 || : 表示执行失败也继续执行
-mysql -uroot -p${password} --connect-expired-password mysql < reset.sql || :
-
-
-
-
+sudo docker exec -it mysql bash -c "echo 'server-id=1' >> /etc/mysql/my.cnf"
+sudo docker exec -it mysql bash -c "echo 'log-bin=/var/lib/mysql/binlog' >> /etc/mysql/my.cnf"
+sudo docker exec -it mysql bash -c "echo 'binlog-do-db=sync-db' >> /etc/mysql/my.cnf"
 
 
 
@@ -35,13 +51,7 @@ mysql -uroot -p${password} --connect-expired-password mysql < reset.sql || :
 '
 # 多行注释 方法二
 :<<!
-  sudo docker run -it -d \
-    --name mysql \
-    -p 3306:3306 \
-    -e MYSQL_ROOT_PASSWORD=root@123 \
-    mysql:8.0.25
-
-  sudo docker exec -it mysql bash -c "echo 'server-id=1' >> /etc/mysql/my.cnf"
-  sudo docker exec -it mysql bash -c "echo 'log-bin=/var/lib/mysql/binlog' >> /etc/mysql/my.cnf"
-  sudo docker exec -it mysql bash -c "echo 'binlog-do-db=sync-db' >> /etc/mysql/my.cnf"
+create user 'canal'@'%' identified with mysql_native_password by 'Canal@ass01';
+grant replication slave on *.* to 'canal'@'%';
+flush privileges;
 !

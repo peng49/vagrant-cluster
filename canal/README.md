@@ -4,7 +4,7 @@
 |系统|版本|
 |:---:|:---:|
 |canal|1.1.5|
-|mysql|8.0.25|
+|mysql|8.0.27|
 
 ###### mysql设置
 创建同步用户
@@ -76,4 +76,48 @@ mysql> show variables like '%binlog_format%';
 | binlog_format | ROW   |
 +---------------+-------+
 1 row in set (0.00 sec)
+```
+
+
+###### canal设置
+安装java
+```shell
+sudo yum install -y java-1.8.0-openjdk
+```
+
+下载canal并解压
+```shell
+sudo curl -L https://github.com/alibaba/canal/releases/download/canal-1.1.5/canal.deployer-1.1.5.tar.gz -o canal.deployer-1.1.5.tar.gz
+sudo mkdir /usr/local/canal-server -p
+sudo tar -xzvf canal.deployer-1.1.5.tar.gz -C /usr/local/canal-server
+```
+打开默认实例
+```shell
+sudo vim /usr/local/canal-server/conf/example/instance.properties
+```
+修改如下设置
+```shell
+canal.instance.master.address=192.168.150.120:3306
+canal.instance.master.journal.name=binlog.000003
+canal.instance.master.position=156
+
+canal.instance.dbUsername=canal
+canal.instance.dbPassword=Canal@ass01
+
+# table regex
+canal.instance.filter.regex=.*\\..*
+# table black regex
+canal.instance.filter.black.regex=mysql\\.slave_.*
+```
+
+启动关闭
+```shell
+# 启动
+sudo sh /usr/local/canal-server/bin/startup.sh
+
+# 重启
+sudo sh /usr/local/canal-server/bin/restart.sh
+
+# 关闭
+sudo sh /usr/local/canal-server/bin/stop.sh
 ```
