@@ -98,6 +98,8 @@ sudo vim /usr/local/canal-server/conf/example/instance.properties
 修改如下设置
 ```shell
 canal.instance.master.address=192.168.150.120:3306
+
+# 在数据库执行 show master status; 查出的值
 canal.instance.master.journal.name=binlog.000003
 canal.instance.master.position=156
 
