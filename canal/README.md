@@ -1,6 +1,10 @@
 **参考链接** <br/>
 [Canal——增量同步MySQL数据到ElasticSearch](https://www.cnblogs.com/caoweixiong/p/11825303.html) <br/>
 
+|系统|版本|
+|:---:|:---:|
+|canal|1.1.5|
+|mysql|8.0.25|
 
 ###### mysql设置
 创建同步用户
