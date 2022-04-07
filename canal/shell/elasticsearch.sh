@@ -1,4 +1,4 @@
-#/bin/sh
+#! /bin/sh
 
 # 安装 elasticsearch
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html
@@ -27,10 +27,20 @@ sudo sed -i 's/#network.host:.*$/network.host: 0.0.0.0/' /etc/elasticsearch/elas
 sudo sed -i '/^#cluster.initial_master_nodes.*/ a\discovery.type: single-node' /etc/elasticsearch/elasticsearch.yml
 
 sudo systemctl start elasticsearch &
-sudo systemctl enalbe elasticsearch
+sudo systemctl enable elasticsearch
 
 # 安装 kibana
-sudo yum install --enablerepo=kibana -y kibana
+sudo bash -c 'cat <<EOF > /etc/yum.repos.d/kibana.repo
+[kibana-7.x]
+name=Kibana repository for 7.x packages
+baseurl=https://artifacts.elastic.co/packages/7.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+EOF'
+sudo yum install -y kibana
 sudo sed -i 's/#server.host:.*$/server.host: "0.0.0.0"/' /etc/kibana/kibana.yml
 sudo systemctl start kibana &
 sudo systemctl enable kibana

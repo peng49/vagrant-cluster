@@ -1,5 +1,8 @@
-#/bin/sh
-sudo curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+#! /bin/sh
+# 设置时区
+sudo timedatectl set-timezone Asia/Shanghai
+
+sudo curl -L -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 
 #https://www.jianshu.com/p/2206cb265247
 sudo sed -ri 's/cloud.aliyuncs/aliyun/g' /etc/yum.repos.d/CentOS-Base.repo
@@ -13,7 +16,7 @@ sudo systemctl restart sshd
 
 
 # https://stackoverflow.com/questions/70993613/unable-to-install-mysql-on-centos7
-sudo yum remove mysql80-community-release.noarch
+sudo yum remove -y mysql80-community-release.noarch
 sudo yum clean all --verbose
 
 sudo rpm -Uvh https://dev.mysql.com/get/mysql80-community-release-el7-5.noarch.rpm
