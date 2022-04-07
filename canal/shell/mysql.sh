@@ -22,3 +22,26 @@ password=$(sudo grep "password" /var/log/mysqld.log | sed -e 's/^.*: //g')
 echo "alter user 'root'@'localhost' identified with mysql_native_password by 'Acm@123$';" > reset.sql
 # 添加 || : 表示执行失败也继续执行
 mysql -uroot -p${password} --connect-expired-password mysql < reset.sql || :
+
+
+
+
+
+
+
+# 多行注释 方法一
+: '
+
+'
+# 多行注释 方法二
+:<<!
+  sudo docker run -it -d \
+    --name mysql \
+    -p 3306:3306 \
+    -e MYSQL_ROOT_PASSWORD=root@123 \
+    mysql:8.0.25
+
+  sudo docker exec -it mysql bash -c "echo 'server-id=1' >> /etc/mysql/my.cnf"
+  sudo docker exec -it mysql bash -c "echo 'log-bin=/var/lib/mysql/binlog' >> /etc/mysql/my.cnf"
+  sudo docker exec -it mysql bash -c "echo 'binlog-do-db=sync-db' >> /etc/mysql/my.cnf"
+!

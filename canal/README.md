@@ -17,6 +17,10 @@ Query OK, 0 rows affected (0.00 sec)
 mysql> create database `sync-db`;
 Query OK, 1 row affected (0.00 sec)
 ```
+```shell
+alter user 'canal'@'%' identified with mysql_native_password by 'Canal@ass01';
+```
+
 修改配置文件
 ```shell
 vim /etc/my.cnf

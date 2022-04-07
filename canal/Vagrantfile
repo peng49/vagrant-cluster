@@ -13,8 +13,8 @@ boxes = [
     {
         :name => "canal",
         :eth1 => "192.168.150.121",
-        :mem => "2048",
-        :cpu => "2"
+        :mem => "4096",
+        :cpu => "4"
     },
     {
         :name => "elasticsearch",
