@@ -39,16 +39,28 @@ sudo docker run -it -d \
     -e MYSQL_ROOT_PASSWORD=root@123 \
     mysql:8.0.25
 
+# my.cnf 配置
 sudo docker exec -it mysql bash -c "echo 'server-id=1' >> /etc/mysql/my.cnf"
+# 可省略，mysql8默认开启日志
 sudo docker exec -it mysql bash -c "echo 'log-bin=/var/lib/mysql/binlog' >> /etc/mysql/my.cnf"
-sudo docker exec -it mysql bash -c "echo 'binlog-do-db=sync-db' >> /etc/mysql/my.cnf"
+# 可省略，mysql8 默认就是ROW
+sudo docker exec -it mysql bash -c "echo 'binlog-format=ROW' >> /etc/mysql/my.cnf"
+sudo docker exec -it mysql bash -c "echo 'binlog-do-db=syncdb' >> /etc/mysql/my.cnf"
 
+sudo docker exec -it mysql bash -c "mysql -uroot -proot@123 <<EOF
+create user 'canal'@'%' identified with mysql_native_password by 'Canal@ass01';
+grant replication slave on *.* to 'canal'@'%';
+flush privileges;
+create database syncdb;
+EOF"
 
+sudo systemctl restart docker
 
 # 多行注释 方法一
 : '
 
 '
+
 # 多行注释 方法二
 :<<!
 create user 'canal'@'%' identified with mysql_native_password by 'Canal@ass01';

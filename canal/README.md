@@ -18,7 +18,7 @@ Query OK, 0 rows affected (0.00 sec)
 mysql> flush privileges;
 Query OK, 0 rows affected (0.00 sec)
 
-mysql> create database `sync-db`;
+mysql> create database `syncdb`;
 Query OK, 1 row affected (0.00 sec)
 ```
 ```shell
@@ -34,7 +34,7 @@ vim /etc/my.cnf
 [mysqld]
 log-bin=/var/lib/mysql/binlog
 server-id=1
-binlog-do-db=sync-db
+binlog-do-db=syncdb
 
 datadir=/var/lib/mysql
 socket=/var/lib/mysql/mysql.sock
@@ -46,7 +46,7 @@ mysql> show master status;
 +---------------+----------+--------------+------------------+-------------------+
 | File          | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |
 +---------------+----------+--------------+------------------+-------------------+
-| binlog.000002 |      157 | sync-db      |                  |                   |
+| binlog.000002 |      157 | syncdb      |                  |                   |
 +---------------+----------+--------------+------------------+-------------------+
 1 row in set (0.00 sec)
 ```
