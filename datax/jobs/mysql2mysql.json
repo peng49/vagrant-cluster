@@ -1,0 +1,55 @@
+{
+  "job": {
+    "content": [
+      {
+        "reader": {
+          "name": "mysqlreader",
+          "parameter": {
+            "column": [],
+            "connection": [
+              {
+                "jdbcUrl": [
+                  "jdbc:mysql://192.165.33.111:3306/datax?useUnicode=true&characterEncoding=utf8"
+                ],
+                "querySql": [
+                  "select id as datax_id,name as datax_name,username as datax_username,created_at,updated_at from users;"
+                ]
+              }
+            ],
+            "username": "root",
+            "password": "root@123",
+            "where": ""
+          }
+        },
+        "writer": {
+          "name": "mysqlwriter",
+          "parameter": {
+            "writeMode": "replace",
+            "username": "root",
+            "password": "root@123",
+            "column": [
+              "datax_id",
+              "datax_name",
+              "datax_username",
+              "created_at",
+              "updated_at"
+            ],
+            "connection": [
+              {
+                "jdbcUrl": "jdbc:mysql://127.0.0.1:3306/datax?useUnicode=true&characterEncoding=gbk",
+                "table": [
+                  "datax_users"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "setting": {
+      "speed": {
+        "channel": 1
+      }
+    }
+  }
+}
