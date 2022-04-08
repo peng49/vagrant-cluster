@@ -67,7 +67,13 @@ sudo docker run -it -d \
 #  `updated_at` datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 #);
 
-# todo 启动elasticsearch
+# 启动elasticsearch
+sudo docker run -d --name elasticsearch \
+  -p 9200:9200 \
+  -p 9300:9300 \
+  -e "discovery.type=single-node" \
+  -e "xpack.security.enabled=false" \
+  elasticsearch:8.1.2
 
 # 启动 mongodb
 
@@ -87,3 +93,26 @@ cd /usr/local/datax/plugin/reader/mysqlreader/libs/ && ls | grep mysql-connector
 sudo curl https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.27/mysql-connector-java-8.0.27.jar -o /usr/local/datax/plugin/reader/mysqlreader/libs/mysql-connector-java-8.0.27.jar
 cd /usr/local/datax/plugin/writer/mysqlwriter/libs/ && ls | grep mysql-connector | xargs sudo rm -f
 sudo cp /usr/local/datax/plugin/reader/mysqlreader/libs/mysql-connector-java-8.0.27.jar /usr/local/datax/plugin/writer/mysqlwriter/libs/mysql-connector-java-8.0.27.jar
+
+
+
+# 编译生成 elasticsearchwriter 插件
+sudo yum install -y maven unzip
+curl -L https://github.com/alibaba/DataX/archive/refs/heads/master.zip -o /home/vagrant/DataX.zip
+cd /home/vagrant && unzip DataX.zip
+#sed -i 's/<module>.*<\/module>//g' pom.xml
+#sed -i 's/<modules>/<modules>\n<module>elasticsearchwriter<\/module>/g' pom.xml
+
+
+
+
+
+
+
+
+
+
+# 生成 elasticsearchwriter 插件
+
+
+cd /usr/local/datax/plugin/writer/elasticsearchwriter/libs/ && ls | grep mysql-connector | xargs sudo rm -f
