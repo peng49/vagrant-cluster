@@ -12,7 +12,9 @@
 mysql> create user 'canal'@'%' identified by 'Canal@ass01';
 Query OK, 0 rows affected (0.01 sec)
 
-mysql> grant replication slave on *.* to 'canal'@'%';
+# https://my.oschina.net/u/1394615/blog/5130062
+# canal需要select权限
+mysql> grant replication slave,select  on *.* to 'canal'@'%';
 Query OK, 0 rows affected (0.00 sec)
 
 mysql> flush privileges;
