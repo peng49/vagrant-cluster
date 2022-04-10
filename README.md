@@ -11,9 +11,10 @@
 |[etcd](./etcd)|etcd||
 |[keepalived](./keepalived)|Keepalived高可用示例||
 |[nginx](./nginx)|nginx负载均衡|192.165.43.101<br/> 192.165.43.102<br/> 192.165.43.103<br/> 负载均衡测试: 192.165.43.101:8080|
-|[supervisor](./supervisor)|supervisor进程管理测试||
+|[supervisor](./supervisor)|supervisor进程管理测试|192.165.33.112|
 |[openldap](./openldap)|openldap测试|192.165.33.41|
 |[zabbix](./zabbix)|zabbix测试||
+|[prometheus](./prometheus)|prometheus 容器监控||
 |[harbor](./harbor)|harbor镜像仓库|192.165.34.31|
 |[gogs](./gogs)|gogs|192.165.33.51|
 |[gitlab](./gitlab)|gitlab|192.165.34.61|
@@ -24,6 +25,7 @@
 |[hbase](./hbase)|hbase||
 |[seafile](./seafile)|seafile云盘||
 |[canal](./canal)|mysql数据同步到elasticsearch|mysql:192.168.150.120<br/> canal:192.168.150.121<br/> elasticsearch:192.168.150.122<br/>|
+|[datax](./datax)|多数据源同步工具测试|192.165.33.111|
 |[rabbitmq](./rabbitmq)|rabbitmq|192.165.34.71 <br/> web地址:192.165.34.71:15672|
 |[activemq](./activemq)|activemq||
 |[kafka](./kafka)|kafka||

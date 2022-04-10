@@ -35,3 +35,14 @@ advanced.config 示例
       {resource, queue, {constant, true}}
     ]}},
 ```
+
+
+**用户权限**
+1. 用户权限指的是用户对exchange，queue的操作权限，包括配置权限，读写权限。
+2. 配置权限会影响到exchange，queue的声明和删除。
+3. 读写权限影响到从queue里取消息，向exchange发送消息以及queue和exchange的绑定(bind)操作。
+
+例如:
+1. 将queue绑定到某exchange上，需要具有queue的可写权限，以及exchange的可读权限；
+2. 向exchange发送消息需要具有exchange的可写权限；
+3. 从queue里取数据需要具有queue的可读权限

@@ -48,24 +48,26 @@ sudo docker run -it -d \
     mysql:8.0.27
 
 # 生成mysql测试环境数据
+sudo docker exec -it mysql bash -c "mysql -uroot -proot@123 <<EOF
+create database datax;
+use datax;
+create table users (
+  id int auto_increment primary key,
+  name varchar(64) not null default '',
+  username varchar(32) not null default '',
+  created_at datetime not null default CURRENT_TIMESTAMP,
+  updated_at datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+insert into users (name,username) values ('name01',substring(MD5(RAND()),1,20));
+create table datax_users (
+  datax_id int auto_increment primary key,
+  datax_name varchar(64) not null default '',
+  datax_username varchar(32) not null default '',
+  created_at datetime not null default CURRENT_TIMESTAMP,
+  updated_at datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+EOF"
 
-# create database datax;
-# use datax;
-#create table users (
-#  `id` int auto_increment primary key,
-#  `name` varchar(64) not null default '',
-#  `username` varchar(32) not null default '',
-#  `created_at` datetime not null default CURRENT_TIMESTAMP,
-#  `updated_at` datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-#);
-# insert into users (name,username) values ('name01',substring(MD5(RAND()),1,20));
-#create table datax_users (
-#  `datax_id` int auto_increment primary key,
-#  `datax_name` varchar(64) not null default '',
-#  `datax_username` varchar(32) not null default '',
-#  `created_at` datetime not null default CURRENT_TIMESTAMP,
-#  `updated_at` datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-#);
 
 # 启动elasticsearch
 sudo docker run -d --name elasticsearch \
@@ -104,15 +106,3 @@ cd /home/vagrant && unzip DataX.zip
 #sed -i 's/<modules>/<modules>\n<module>elasticsearchwriter<\/module>/g' pom.xml
 
 
-
-
-
-
-
-
-
-
-# 生成 elasticsearchwriter 插件
-
-
-cd /usr/local/datax/plugin/writer/elasticsearchwriter/libs/ && ls | grep mysql-connector | xargs sudo rm -f
