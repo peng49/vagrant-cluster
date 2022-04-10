@@ -1,0 +1,82 @@
+version: '3.3'
+services:
+  master:
+    image: tikazyq/crawlab:latest
+    container_name: master
+    environment:
+      # CRAWLAB_API_ADDRESS: "https://<your_api_ip>:<your_api_port>"  # backend API address. Applicable to HTTPS or source code deployment
+      CRAWLAB_SERVER_MASTER: "Y"  # whether to be master node, Y for the master node and N for the working node
+      CRAWLAB_MONGO_HOST: "mongo"  # MongoDB host address. In the docker compose network, directly refer to the service name
+      # CRAWLAB_MONGO_PORT: "27017"  # MongoDB port
+      CRAWLAB_MONGO_DB: "crawlab"  # MongoDB database
+      # CRAWLAB_MONGO_USERNAME: "username"  # MongoDB username
+      # CRAWLAB_MONGO_PASSWORD: "password"  # MongoDB password
+      # CRAWLAB_MONGO_AUTHSOURCE: "admin"  # MongoDB auth source
+      CRAWLAB_REDIS_ADDRESS: "redis"  # Redis host address Redis address. In the docker compose network, directly refer to the service name
+      # CRAWLAB_REDIS_PORT: "6379"  # Redis port
+      # CRAWLAB_REDIS_DATABASE: "1"  # Redis database
+      # CRAWLAB_REDIS_PASSWORD: "password"  # Redis password
+      # CRAWLAB_LOG_LEVEL: "info"  # log level. info by default
+      # CRAWLAB_LOG_ISDELETEPERIODICALLY: "N"  # whether to periodically delete log files. Do not delete log by default
+      # CRAWLAB_LOG_DELETEFREQUENCY: "@hourly"  # frequency of deleting log files. Default is hourly
+      # CRAWLAB_SERVER_REGISTER_TYPE: "mac"  # node register type. Default to MAC address or IP (to prevent MAC address conflict)
+      # CRAWLAB_SERVER_REGISTER_IP: "127.0.0.1"  # node register ip. Unique identification number of the node, only valid when CRAWLAB_SERVER_REGISTER_TYPE is "IP"
+      # CRAWLAB_TASK_WORKERS: 8  # number of task executors(number of parallel tasks)
+      # CRAWLAB_RPC_WORKERS: 16  # number of RPC workers RPC
+      # CRAWLAB_SERVER_LANG_NODE: "Y"  # whether to pre-install Node.js
+      # CRAWLAB_SERVER_LANG_JAVA: "Y"  # whether to pre-install Java
+      # CRAWLAB_SETTING_ALLOWREGISTER: "N"  # whether to allow user registration
+      # CRAWLAB_SETTING_ENABLETUTORIAL: "N"  # whether to enable tutorial
+      # CRAWLAB_NOTIFICATION_MAIL_SERVER: smtp.exmaple.com  # STMP server address STMP
+      # CRAWLAB_NOTIFICATION_MAIL_PORT: 465  # STMP server port STMP
+      # CRAWLAB_NOTIFICATION_MAIL_SENDEREMAIL: admin@exmaple.com  # sender email
+      # CRAWLAB_NOTIFICATION_MAIL_SENDERIDENTITY: admin@exmaple.com  # sender ID
+      # CRAWLAB_NOTIFICATION_MAIL_SMTP_USER: username  # SMTP username
+      # CRAWLAB_NOTIFICATION_MAIL_SMTP_PASSWORD: password  # SMTP password
+    ports:
+      - "8080:8080" # frontend port mapping
+    depends_on:
+      - mongo
+      - redis
+    # volumes:
+    #   - "/var/crawlab/log:/var/logs/crawlab" # log persistent
+  worker:
+    image: tikazyq/crawlab:latest
+    container_name: worker
+    environment:
+      CRAWLAB_SERVER_MASTER: "N"
+      CRAWLAB_MONGO_HOST: "mongo"
+      CRAWLAB_REDIS_ADDRESS: "redis"
+    depends_on:
+      - mongo
+      - redis
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: username
+    #   MONGO_INITDB_ROOT_PASSWORD: password
+    # volumes:
+    #   - "/var/crawlab/log:/var/logs/crawlab" # log persistent
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: username
+    #   MONGO_INITDB_ROOT_PASSWORD: password
+    # volumes:
+    #   - "/opt/crawlab/mongo/data/db:/data/db"  # make data persistent
+    # ports:
+    #   - "27017:27017"  # expose port to host machine
+  redis:
+    image: redis:latest
+    restart: always
+    container_name: redis
+    # command: redis-server --requirepass "password" # set redis password
+    # volumes:
+    #   - "/opt/crawlab/redis/data:/data"  # make data persistent
+    # ports:
+    #   - "6379:6379"  # expose port to host machine
+  # splash:  # use Splash to run spiders on dynamic pages
+  #   image: scrapinghub/splash
+  #   container_name: splash
+  #   ports:
+  #     - "8050:8050"
