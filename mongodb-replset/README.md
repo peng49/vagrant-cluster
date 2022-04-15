@@ -12,3 +12,23 @@ cfg = {
 
 rs.initiate(cfg)
 ```
+mongodb 部署方式 
+
+https://www.cnblogs.com/nulige/p/7613721.html 
+
+单节点
+
+副本集
+
+分片
+
+
+副本集 + 分片
+
+
+
+
+todo 权限管理
+
+
+mongodbshark 同步数据
