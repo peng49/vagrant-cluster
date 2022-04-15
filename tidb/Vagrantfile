@@ -6,9 +6,9 @@ Vagrant.require_version ">= 1.6.0"
 boxes = [
     {
         :name => "tidb01",
-        :eth1 => "192.165.33.51",
-        :mem => "2048",
-        :cpu => "2"
+        :eth1 => "192.165.34.61",
+        :mem => "4096",
+        :cpu => "4"
     },
     {
         :name => "tidb02",
