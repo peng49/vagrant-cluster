@@ -1,5 +1,11 @@
 {
   "job": {
+    "setting": {
+      "speed": {
+        "channel": 1,
+        "batchSize": 1000
+      }
+    },
     "content": [
       {
         "reader": {
@@ -12,7 +18,7 @@
                   "jdbc:mysql://192.165.33.111:3306/datax?useUnicode=true&characterEncoding=utf8"
                 ],
                 "querySql": [
-                  "select * from users limit 10;"
+                  "select id as _id,id,name from users limit 10;"
                 ]
               }
             ],
@@ -30,6 +36,7 @@
             "accessId": "1",
             "accessKey": "1",
             "cleanup": true,
+            "dynamic": false,
             "settings": {
               "index": {
                 "number_of_shards": 1,
@@ -41,36 +48,21 @@
             "splitter": ",",
             "column": [
               {
-                "name": "id",
+                "name": "pk",
                 "type": "id"
+              },
+              {
+                "name": "id",
+                "type": "keyword"
               },
               {
                 "name": "name",
                 "type": "keyword"
-              },
-              {
-                "name": "username",
-                "type": "keyword"
-              },
-              {
-                "name": "created_at",
-                "type": "date",
-                "format": "yyyy-MM-dd HH:mm:ss"
-              },
-              {
-                "name": "updated_at",
-                "type": "date",
-                "format": "yyyy-MM-dd HH:mm:ss"
               }
             ]
           }
         }
       }
-    ],
-    "setting": {
-      "speed": {
-        "channel": 1
-      }
-    }
+    ]
   }
 }

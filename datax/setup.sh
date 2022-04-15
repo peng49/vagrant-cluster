@@ -26,6 +26,8 @@ sudo yum install -y docker-ce docker-ce-cli containerd.io
 sudo systemctl start docker
 sudo systemctl enable docker
 
+sudo usermod -aG docker $(whoami)
+
 # 设置daemon.json文件
 sudo touch /etc/docker/daemon.json
 sudo bash -c 'cat <<EOF > /etc/docker/daemon.json
@@ -70,12 +72,20 @@ EOF"
 
 
 # 启动elasticsearch
+:<<!
 sudo docker run -d --name elasticsearch \
   -p 9200:9200 \
   -p 9300:9300 \
   -e "discovery.type=single-node" \
   -e "xpack.security.enabled=false" \
   elasticsearch:8.1.2
+!
+sudo docker run -d --name elasticsearch \
+  -p 9200:9200 \
+  -p 9300:9300 \
+  -e "discovery.type=single-node" \
+  -e "xpack.security.enabled=false" \
+  elasticsearch:7.17.2
 
 # 启动 mongodb
 
