@@ -78,3 +78,12 @@ upstream hosts {
 }
 ```
 [官网](http://nginx.org/en/docs/http/ngx_http_upstream_module.html)
+
+
+
+### nginx 配置ldap认证
+https://lantian.pub/article/modify-website/nginx-ldap-authentication.lantian/
+
+https://www.jianshu.com/p/3728c882d252
+
+https://www.jianshu.com/p/70543ab5201f
