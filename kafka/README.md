@@ -3,3 +3,7 @@
 [kafka管理工具【滴滴开源】](https://github.com/didi/LogiKM)
 
 [kafka管理工具【yahoo开源】](https://github.com/yahoo/CMAK)
+
+http://www.shixinke.com/java/kafka-configuration
+
+https://blog.csdn.net/qq_34901049/article/details/100996547

@@ -16,14 +16,15 @@ sudo sed -ri 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh
 sudo sed -ri 's/#PermitRootLogin yes/PermitRootLogin yes/g' /etc/ssh/sshd_config
 sudo systemctl restart sshd
 
-
-
+# shellcheck disable=SC2039
+# shellcheck disable=SC2086
+if [ ${HOSTNAME} == 'kafka01' ];then
 # install java, zookeeper依赖java
 sudo yum install -y java-1.8.0-openjdk
 
 # install zookeeper
 curl -L https://dlcdn.apache.org/zookeeper/zookeeper-3.7.0/apache-zookeeper-3.7.0-bin.tar.gz -o apache-zookeeper-3.7.0-bin.tar.gz
-sudo tar -zxvf apache-zookeeper-3.7.0.tar.gz -C /usr/local && sudo mv /usr/local/apache-zookeeper-3.7.0-bin /usr/local/zookeeper
+sudo tar -zxvf apache-zookeeper-3.7.0-bin.tar.gz -C /usr/local && sudo mv /usr/local/apache-zookeeper-3.7.0-bin /usr/local/zookeeper
 sudo cp /usr/local/zookeeper/conf/zoo_sample.cfg /usr/local/zookeeper/conf/zoo.cfg
 # 启动
 # sudo /usr/local/zookeeper/bin/zkServer.sh start
@@ -55,3 +56,4 @@ curl -L https://archive.apache.org/dist/kafka/3.0.1/kafka_2.13-3.0.1.tgz -o kafk
 sudo tar -zxvf kafka_2.13-3.0.1.tgz -C /usr/local/ && sudo mv /usr/local/kafka_2.13-3.0.1 /usr/local/kafka
 
 sudo /usr/local/kafka/bin/kafka-server-start.sh /usr/local/kafka/config/server.properties &
+fi
