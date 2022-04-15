@@ -3,20 +3,21 @@ services:
   master:
     image: tikazyq/crawlab:latest
     container_name: master
+    restart: always
     environment:
       # CRAWLAB_API_ADDRESS: "https://<your_api_ip>:<your_api_port>"  # backend API address. Applicable to HTTPS or source code deployment
       CRAWLAB_SERVER_MASTER: "Y"  # whether to be master node, Y for the master node and N for the working node
       CRAWLAB_MONGO_HOST: "mongo"  # MongoDB host address. In the docker compose network, directly refer to the service name
       # CRAWLAB_MONGO_PORT: "27017"  # MongoDB port
       CRAWLAB_MONGO_DB: "crawlab"  # MongoDB database
-      # CRAWLAB_MONGO_USERNAME: "username"  # MongoDB username
-      # CRAWLAB_MONGO_PASSWORD: "password"  # MongoDB password
-      # CRAWLAB_MONGO_AUTHSOURCE: "admin"  # MongoDB auth source
+      CRAWLAB_MONGO_USERNAME: "crawlab"  # MongoDB username
+      CRAWLAB_MONGO_PASSWORD: "crawlab#pass"  # MongoDB password
+      CRAWLAB_MONGO_AUTHSOURCE: "admin"  # MongoDB auth source
       CRAWLAB_REDIS_ADDRESS: "redis"  # Redis host address Redis address. In the docker compose network, directly refer to the service name
       # CRAWLAB_REDIS_PORT: "6379"  # Redis port
       # CRAWLAB_REDIS_DATABASE: "1"  # Redis database
-      # CRAWLAB_REDIS_PASSWORD: "password"  # Redis password
-      # CRAWLAB_LOG_LEVEL: "info"  # log level. info by default
+      CRAWLAB_REDIS_PASSWORD: "redis#pass"  # Redis password
+      CRAWLAB_LOG_LEVEL: "debug"  # log level. info by default
       # CRAWLAB_LOG_ISDELETEPERIODICALLY: "N"  # whether to periodically delete log files. Do not delete log by default
       # CRAWLAB_LOG_DELETEFREQUENCY: "@hourly"  # frequency of deleting log files. Default is hourly
       # CRAWLAB_SERVER_REGISTER_TYPE: "mac"  # node register type. Default to MAC address or IP (to prevent MAC address conflict)
@@ -38,45 +39,68 @@ services:
     depends_on:
       - mongo
       - redis
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 1G
     # volumes:
     #   - "/var/crawlab/log:/var/logs/crawlab" # log persistent
   worker:
     image: tikazyq/crawlab:latest
     container_name: worker
+    restart: always
+    command:
+      - pip install virtualenv virtualenvwrapper && bash -c "echo 'source /usr/local/bin/virtualenvwrapper.sh' >> /etc/bash.bashrc"
     environment:
       CRAWLAB_SERVER_MASTER: "N"
       CRAWLAB_MONGO_HOST: "mongo"
+      CRAWLAB_MONGO_DB: "crawlab"  # MongoDB database
+      CRAWLAB_MONGO_USERNAME: "crawlab"  # MongoDB username
+      CRAWLAB_MONGO_PASSWORD: "crawlab#pass"  # MongoDB password
+      CRAWLAB_MONGO_AUTHSOURCE: "admin"  # MongoDB auth source
       CRAWLAB_REDIS_ADDRESS: "redis"
+      CRAWLAB_REDIS_PASSWORD: "redis#pass"
     depends_on:
       - mongo
       - redis
-    # environment:
-    #   MONGO_INITDB_ROOT_USERNAME: username
-    #   MONGO_INITDB_ROOT_PASSWORD: password
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 1G
     # volumes:
     #   - "/var/crawlab/log:/var/logs/crawlab" # log persistent
   mongo:
-    image: mongo:latest
+    image: mongo:4.4.13
     container_name: mongo
     restart: always
-    # environment:
-    #   MONGO_INITDB_ROOT_USERNAME: username
-    #   MONGO_INITDB_ROOT_PASSWORD: password
+    environment:
+       MONGO_INITDB_ROOT_USERNAME: "crawlab"
+       MONGO_INITDB_ROOT_PASSWORD: "crawlab#pass"
     # volumes:
     #   - "/opt/crawlab/mongo/data/db:/data/db"  # make data persistent
-    # ports:
-    #   - "27017:27017"  # expose port to host machine
+    ports:
+      - "27017:27017"  # expose port to host machine
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 2G
   redis:
     image: redis:latest
     restart: always
     container_name: redis
-    # command: redis-server --requirepass "password" # set redis password
+    command: redis-server --requirepass "redis#pass" # set redis password
     # volumes:
     #   - "/opt/crawlab/redis/data:/data"  # make data persistent
-    # ports:
-    #   - "6379:6379"  # expose port to host machine
-  # splash:  # use Splash to run spiders on dynamic pages
-  #   image: scrapinghub/splash
-  #   container_name: splash
-  #   ports:
-  #     - "8050:8050"
+    ports:
+      - "6379:6379"  # expose port to host machine
+    deploy:
+      resources:
+        limits:
+          cpus: 0.25
+          memory: 512M
+  splash:  # use Splash to run spiders on dynamic pages
+    image: scrapinghub/splash:latest
+    container_name: splash
