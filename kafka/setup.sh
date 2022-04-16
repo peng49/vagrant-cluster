@@ -41,7 +41,6 @@ Type=forking
 ExecStart=/usr/local/zookeeper/bin/zkServer.sh start
 ExecStop=/usr/local/zookeeper/bin/zkServer.sh stop
 ExecReload=/usr/local/zookeeper/bin/zkServer.sh restart
-PIDFile=/tmp/zookeeper/zk.pid
 Restart=always
 
 [Install]
@@ -56,4 +55,26 @@ curl -L https://archive.apache.org/dist/kafka/3.0.1/kafka_2.13-3.0.1.tgz -o kafk
 sudo tar -zxvf kafka_2.13-3.0.1.tgz -C /usr/local/ && sudo mv /usr/local/kafka_2.13-3.0.1 /usr/local/kafka
 
 sudo /usr/local/kafka/bin/kafka-server-start.sh /usr/local/kafka/config/server.properties &
+
+
+# 使用 docker安装mysql, logiKM需要
+sudo yum install -y yum-utils
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install -y docker-ce docker-ce-cli containerd.io
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# docker 安装 logiKM
+# https://github.com/didi/LogiKM/blob/master/docs/install_guide/install_guide_docker_cn.md
+sudo docker run --name mysql -p 3306:3306 --restart always -d registry.cn-hangzhou.aliyuncs.com/zqqq/logikm-mysql:5.7.37
+sudo docker run --name logikm -p 8090:8080 --restart always --link mysql -d registry.cn-hangzhou.aliyuncs.com/zqqq/logikm:2.6.0
+
+# 安装包 logiKM
+# curl -L https://github.com/didi/LogiKM/releases/download/2.6.0/kafka-manager-2.6.0.tar.gz -o kafka-manager-2.6.0.tar.gz
+
+
+# 安装 eagle https://www.kafka-eagle.org/articles/docs/installation/linux-macos.html
+curl -L https://github.com/smartloli/kafka-eagle-bin/archive/v2.1.0.tar.gz -o kafka-eagle-bin-2.1.0.tar.gz
 fi
