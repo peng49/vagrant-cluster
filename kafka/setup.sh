@@ -20,7 +20,7 @@ sudo systemctl restart sshd
 # shellcheck disable=SC2086
 if [ ${HOSTNAME} == 'kafka01' ];then
 # install java, zookeeper依赖java
-sudo yum install -y java-1.8.0-openjdk
+sudo yum install -y java-1.8.0-openjdk*
 
 # install zookeeper
 curl -L https://dlcdn.apache.org/zookeeper/zookeeper-3.7.0/apache-zookeeper-3.7.0-bin.tar.gz -o apache-zookeeper-3.7.0-bin.tar.gz
@@ -54,6 +54,11 @@ sudo systemctl start zkServer
 curl -L https://archive.apache.org/dist/kafka/3.0.1/kafka_2.13-3.0.1.tgz -o kafka_2.13-3.0.1.tgz
 sudo tar -zxvf kafka_2.13-3.0.1.tgz -C /usr/local/ && sudo mv /usr/local/kafka_2.13-3.0.1 /usr/local/kafka
 
+# 放开 #listeners=PLAINTEXT://:9092 前的注释
+sudo sed -ie 's/#listeners/listeners/' /usr/local/kafka/config/server.properties
+sudo sed -ie 's/broker.id=0/broker.id=1/' /usr/local/kafka/config/server.properties
+sudo sed -ie 's/#advertised.listeners=PLAINTEXT:\/\/your.host.name:9092/advertised.listeners=PLAINTEXT:\/\/192.165.34.91:9092/' /usr/local/kafka/config/server.properties
+
 sudo /usr/local/kafka/bin/kafka-server-start.sh /usr/local/kafka/config/server.properties &
 
 
@@ -76,5 +81,21 @@ sudo docker run --name logikm -p 8090:8080 --restart always --link mysql -d regi
 
 
 # 安装 eagle https://www.kafka-eagle.org/articles/docs/installation/linux-macos.html
-curl -L https://github.com/smartloli/kafka-eagle-bin/archive/v2.1.0.tar.gz -o kafka-eagle-bin-2.1.0.tar.gz
+curl -L https://github.com/smartloli/kafka-eagle-bin/archive/v2.1.0.tar.gz -o kafka-eagle-bin-2.1.0.tar.gz && \
+  sudo tar -zxvf kafka-eagle-bin-2.1.0.tar.gz && \
+  sudo tar -zxvf kafka-eagle-bin-2.1.0/efak-web-2.1.0-bin.tar.gz -C /usr/local && \
+  sudo mv /usr/local/efak-web-2.1.0 /usr/local/efak
+
+sudo bash -c 'cat <<EOF >> /etc/profile
+
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.322.b06-1.el7_9.x86_64
+export KE_HOME=/usr/local/efak
+export PATH=\$PATH:\$KE_HOME/bin
+EOF'
+
+source /etc/profile
+sudo mkdir -p /opt/kafka-eagle/db/
+sudo chmod +x /usr/local/efak/bin/ke.sh
+sudo cp /vagrant/system-config.properties /usr/local/efak/conf/system-config.properties
+
 fi

@@ -15,7 +15,7 @@ $rk->flush(1000);*/
 $topic = $rk->newTopic("test5");
 
 while (true) {
-    for ($i = 1; $i < 20; $i++) {
+    for ($i = 1; $i < 2000; $i++) {
         $topic->produce(RD_KAFKA_PARTITION_UA, 0, "qkl4 . " . date('Y-m-d H:i:s').rand(0,100000));
     }
     sleep(1);
