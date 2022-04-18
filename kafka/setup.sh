@@ -31,13 +31,26 @@ curl -L https://archive.apache.org/dist/kafka/3.0.1/kafka_2.13-3.0.1.tgz -o kafk
 sudo tar -zxvf kafka_2.13-3.0.1.tgz -C /usr/local/ && sudo mv /usr/local/kafka_2.13-3.0.1 /usr/local/kafka
 
 # 放开 #listeners=PLAINTEXT://:9092 前的注释
-
-sudo sed -ie 's/#listeners/listeners/' /usr/local/kafka/config/server.properties
-sudo sed -ie 's/broker.id=0/broker.id=1/' /usr/local/kafka/config/server.properties
-sudo sed -ie "s/#advertised.listeners=PLAINTEXT:\/\/your.host.name:9092/advertised.listeners=PLAINTEXT:\/\/${HOST_IP}:9092/" /usr/local/kafka/config/server.properties
+#sudo sed -ie 's/#listeners/listeners/' /usr/local/kafka/config/server.properties
+#sudo sed -ie 's/broker.id=0/broker.id=1/' /usr/local/kafka/config/server.properties
+#sudo sed -ie "s/#advertised.listeners=PLAINTEXT:\/\/your.host.name:9092/advertised.listeners=PLAINTEXT:\/\/${HOST_IP}:9092/" /usr/local/kafka/config/server.properties
 #sudo /usr/local/kafka/bin/kafka-server-start.sh -daemon /usr/local/kafka/config/server.properties
 
-#controller.quorum.voters=1@localhost:9093
+# 设置node.id
+id=$(echo "${HOSTNAME}" | sed -e 's/kafka0//g')
+sudo sed -ie "s/node.id=.*/node.id=${id}/" /usr/local/kafka/config/kraft/server.properties
+# 设置投票节点
+sudo sed -ie "s/controller.quorum.voters=.*/controller.quorum.voters=1@192.165.34.91:9093,2@192.165.34.92:9093,3@192.165.34.93:9093/" /usr/local/kafka/config/kraft/server.properties
+
+# https://www.orchome.com/10533
+sudo sed -ie "s/^listeners=.*/listeners=PLAINTEXT:\/\/${HOST_IP}:9092,CONTROLLER:\/\/${HOST_IP}:9093/" /usr/local/kafka/config/kraft/server.properties
+
+sudo sed -ie "s/advertised.listeners=.*/advertised.listeners=PLAINTEXT:\/\/${HOST_IP}:9092/" /usr/local/kafka/config/kraft/server.properties
+
+uuid=$(sudo /usr/local/kafka/bin/kafka-storage.sh random-uuid)
+sudo /usr/local/kafka/bin/kafka-storage.sh format -t ${uuid} -c /usr/local/kafka/config/kraft/server.properties
+
+#sudo /usr/local/kafka/bin/kafka-server-start.sh  /usr/local/kafka/config/kraft/server.properties
 
 
 #todo Kafka Raft模式启动【不依赖zookeeper】
@@ -170,5 +183,5 @@ else :
   uuid=$(sudo /usr/local/kafka/bin/kafka-storage.sh random-uuid)
   sudo /usr/local/kafka/bin/kafka-storage.sh format -t ${uuid} -c /usr/local/kafka/config/kraft/server.properties
 
-  sudo /usr/local/kafka/bin/kafka-server-start.sh  /usr/local/kafka/config/kraft/server.properties
+  # sudo /usr/local/kafka/bin/kafka-server-start.sh  /usr/local/kafka/config/kraft/server.properties
 fi
