@@ -3,11 +3,11 @@
 $conf = new RdKafka\Conf();
 //$conf->set('log_level', (string)LOG_DEBUG);
 //$conf->set('debug', 'all');
-$conf->set('bootstrap.servers', '192.165.34.91:9092');
+$conf->set('bootstrap.servers', '192.165.34.91:9092,192.165.34.92:9092,192.165.34.93:9092');
 $rk = new RdKafka\Consumer($conf);
 //$rk->addBrokers("192.165.34.91:9092");
 
-$topic = $rk->newTopic("test5");
+$topic = $rk->newTopic("part01");
 
 // The first argument is the partition to consume from.
 // The second argument is the offset at which to start consumption. Valid values
@@ -25,5 +25,6 @@ while (true) {
         break;
     } else {
         echo $msg->offset,' ',$msg->payload, "\n";
+        @sleep(1);
     }
 }

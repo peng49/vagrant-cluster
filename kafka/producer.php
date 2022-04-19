@@ -3,7 +3,7 @@
 $conf = new RdKafka\Conf();
 //$conf->set('log_level', (string) LOG_DEBUG);
 //$conf->set('debug', 'all');
-$conf->set('bootstrap.servers', '192.165.34.91:9092');
+$conf->set('bootstrap.servers', '192.165.34.91:9092,192.165.34.92:9092,192.165.34.93:9092');
 
 $rk = new RdKafka\Producer($conf);
 //$rk->addBrokers("192.165.34.91:9092");
@@ -12,12 +12,14 @@ $rk = new RdKafka\Producer($conf);
 /*$rk->purge(RD_KAFKA_PURGE_F_QUEUE);
 $rk->flush(1000);*/
 
-$topic = $rk->newTopic("test5");
+$topic = $rk->newTopic("part01");
 
+$count = 15;
 while (true) {
-    for ($i = 1; $i < 2000; $i++) {
-        $topic->produce(RD_KAFKA_PARTITION_UA, 0, "qkl4 . " . date('Y-m-d H:i:s').rand(0,100000));
+    $count++;
+    $topic->produce(RD_KAFKA_PARTITION_UA, 0, $count);
+    if ($count % 2000 == 0) {
+        sleep(1);
+        var_dump($count);
     }
-    sleep(1);
 }
-var_dump($topic);

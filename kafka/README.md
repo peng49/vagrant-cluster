@@ -7,3 +7,5 @@
 http://www.shixinke.com/java/kafka-configuration
 
 https://blog.csdn.net/qq_34901049/article/details/100996547
+
+https://sleeplessbeastie.eu/2021/10/27/how-to-install-and-configure-a-kafka-cluster-without-zookeeper/

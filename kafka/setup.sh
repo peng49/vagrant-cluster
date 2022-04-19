@@ -23,38 +23,21 @@ sudo yum install -y java-11-openjdk
 # shellcheck disable=SC2039
 # shellcheck disable=SC2086
 if [ ${HOSTNAME} == 'kafka01' ];then
-
 # install kafka
 # https://www.orchome.com/6
 # https://segmentfault.com/a/1190000038755877
-curl -L https://dlcdn.apache.org/kafka/3.1.0/kafka_2.13-3.1.0.tgz -o kafka_2.13-3.0.1.tgz
-sudo tar -zxvf kafka_2.13-3.0.1.tgz -C /usr/local/ && sudo mv /usr/local/kafka_2.13-3.0.1 /usr/local/kafka
+curl -L https://dlcdn.apache.org/kafka/3.1.0/kafka_2.13-3.1.0.tgz -o kafka_2.13-3.1.0.tgz
+sudo tar -zxvf kafka_2.13-3.1.0.tgz -C /usr/local/ && sudo mv /usr/local/kafka_* /usr/local/kafka
+
+# 生成一个唯一的集群Id
+sudo /usr/local/kafka/bin/kafka-storage.sh random-uuid > uuid.txt
+
 
 # 放开 #listeners=PLAINTEXT://:9092 前的注释
 #sudo sed -ie 's/#listeners/listeners/' /usr/local/kafka/config/server.properties
 #sudo sed -ie 's/broker.id=0/broker.id=1/' /usr/local/kafka/config/server.properties
 #sudo sed -ie "s/#advertised.listeners=PLAINTEXT:\/\/your.host.name:9092/advertised.listeners=PLAINTEXT:\/\/${HOST_IP}:9092/" /usr/local/kafka/config/server.properties
 #sudo /usr/local/kafka/bin/kafka-server-start.sh -daemon /usr/local/kafka/config/server.properties
-
-#Kafka Raft模式启动【不依赖zookeeper】
-# 设置node.id
-id=$(echo "${HOSTNAME}" | sed -e 's/kafka0//g')
-sudo sed -ie "s/node.id=.*/node.id=${id}/" /usr/local/kafka/config/kraft/server.properties
-# 设置投票节点
-sudo sed -ie "s/controller.quorum.voters=.*/controller.quorum.voters=1@192.165.34.91:9093,2@192.165.34.92:9093,3@192.165.34.93:9093/" /usr/local/kafka/config/kraft/server.properties
-
-# https://www.orchome.com/10533
-sudo sed -ie "s/^listeners=.*/listeners=PLAINTEXT:\/\/${HOST_IP}:9092,CONTROLLER:\/\/${HOST_IP}:9093/" /usr/local/kafka/config/kraft/server.properties
-
-sudo sed -ie "s/advertised.listeners=.*/advertised.listeners=PLAINTEXT:\/\/${HOST_IP}:9092/" /usr/local/kafka/config/kraft/server.properties
-
-uuid=$(sudo /usr/local/kafka/bin/kafka-storage.sh random-uuid)
-sudo /usr/local/kafka/bin/kafka-storage.sh format -t ${uuid} -c /usr/local/kafka/config/kraft/server.properties
-
-#sudo /usr/local/kafka/bin/kafka-server-start.sh  /usr/local/kafka/config/kraft/server.properties
-
-
-
 
 #
 ## 使用 docker安装mysql, logiKM需要
@@ -165,24 +148,33 @@ else :
   sudo touch /opt/sync.pass
   sudo bash -c "echo '123456' > /opt/sync.pass"
   sudo chmod 600 /opt/sync.pass
-  sudo rsync -av vagrant@192.165.34.91::vagranthome/kafka_2.13-3.0.1.tgz /home/vagrant --password-file=/opt/sync.pass || :
+  sudo rsync -av vagrant@192.165.34.91::vagranthome/kafka_2.13-3.1.0.tgz /home/vagrant --password-file=/opt/sync.pass || :
 
-  sudo tar -zxvf kafka_2.13-3.0.1.tgz -C /usr/local/ && sudo mv /usr/local/kafka_2.13-3.0.1 /usr/local/kafka
+  # 从kafka01 复制指定的集群Id
+  sudo rsync -av vagrant@192.165.34.91::vagranthome/uuid.txt /home/vagrant --password-file=/opt/sync.pass || :
 
-  # https://github.com/apache/kafka/blob/trunk/config/kraft/README.md
-  # 设置node.id
-  id=$(echo "${HOSTNAME}" | sed -e 's/kafka0//g')
-  sudo sed -ie "s/node.id=.*/node.id=${id}/" /usr/local/kafka/config/kraft/server.properties
-  # 设置投票节点
-  sudo sed -ie "s/controller.quorum.voters=.*/controller.quorum.voters=1@192.165.34.91:9093,2@192.165.34.92:9093,3@192.165.34.93:9093/" /usr/local/kafka/config/kraft/server.properties
-
-  # https://www.orchome.com/10533
-  sudo sed -ie "s/^listeners=.*/listeners=PLAINTEXT:\/\/${HOST_IP}:9092,CONTROLLER:\/\/${HOST_IP}:9093/" /usr/local/kafka/config/kraft/server.properties
-
-  sudo sed -ie "s/advertised.listeners=.*/advertised.listeners=PLAINTEXT:\/\/${HOST_IP}:9092/" /usr/local/kafka/config/kraft/server.properties
-
-  uuid=$(sudo /usr/local/kafka/bin/kafka-storage.sh random-uuid)
-  sudo /usr/local/kafka/bin/kafka-storage.sh format -t ${uuid} -c /usr/local/kafka/config/kraft/server.properties
-
-  # sudo /usr/local/kafka/bin/kafka-server-start.sh  /usr/local/kafka/config/kraft/server.properties
+  sudo tar -zxvf kafka_2.13-3.1.0.tgz -C /usr/local/ && sudo mv /usr/local/kafka_* /usr/local/kafka
 fi
+
+
+
+# Kafka Raft模式启动【不依赖zookeeper】
+
+# https://github.com/apache/kafka/blob/trunk/config/kraft/README.md
+# 设置node.id
+# shellcheck disable=SC2039
+id=$(echo "${HOSTNAME}" | sed -e 's/kafka0//g')
+sudo sed -ie "s/node.id=.*/node.id=${id}/" /usr/local/kafka/config/kraft/server.properties
+# 设置投票节点
+sudo sed -ie "s/controller.quorum.voters=.*/controller.quorum.voters=1@192.165.34.91:9093,2@192.165.34.92:9093,3@192.165.34.93:9093/" /usr/local/kafka/config/kraft/server.properties
+
+# https://www.orchome.com/10533
+# listeners 设置内网访问的端口号
+# sudo sed -ie "s/^listeners=.*/listeners=PLAINTEXT:\/\/:9092,CONTROLLER:\/\/:9093/" /usr/local/kafka/config/kraft/server.properties
+
+sudo sed -ie "s/advertised.listeners=.*/advertised.listeners=PLAINTEXT:\/\/${HOST_IP}:9092/" /usr/local/kafka/config/kraft/server.properties
+
+uuid=$(cat /home/vagrant/uuid.txt)
+sudo /usr/local/kafka/bin/kafka-storage.sh format -t "${uuid}" -c /usr/local/kafka/config/kraft/server.properties
+
+sudo /usr/local/kafka/bin/kafka-server-start.sh -daemon /usr/local/kafka/config/kraft/server.properties
