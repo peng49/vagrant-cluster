@@ -27,7 +27,7 @@ if [ ${HOSTNAME} == 'kafka01' ];then
 # install kafka
 # https://www.orchome.com/6
 # https://segmentfault.com/a/1190000038755877
-curl -L https://archive.apache.org/dist/kafka/3.0.1/kafka_2.13-3.0.1.tgz -o kafka_2.13-3.0.1.tgz
+curl -L https://dlcdn.apache.org/kafka/3.1.0/kafka_2.13-3.1.0.tgz -o kafka_2.13-3.0.1.tgz
 sudo tar -zxvf kafka_2.13-3.0.1.tgz -C /usr/local/ && sudo mv /usr/local/kafka_2.13-3.0.1 /usr/local/kafka
 
 # 放开 #listeners=PLAINTEXT://:9092 前的注释
@@ -36,6 +36,7 @@ sudo tar -zxvf kafka_2.13-3.0.1.tgz -C /usr/local/ && sudo mv /usr/local/kafka_2
 #sudo sed -ie "s/#advertised.listeners=PLAINTEXT:\/\/your.host.name:9092/advertised.listeners=PLAINTEXT:\/\/${HOST_IP}:9092/" /usr/local/kafka/config/server.properties
 #sudo /usr/local/kafka/bin/kafka-server-start.sh -daemon /usr/local/kafka/config/server.properties
 
+#Kafka Raft模式启动【不依赖zookeeper】
 # 设置node.id
 id=$(echo "${HOSTNAME}" | sed -e 's/kafka0//g')
 sudo sed -ie "s/node.id=.*/node.id=${id}/" /usr/local/kafka/config/kraft/server.properties
@@ -53,7 +54,7 @@ sudo /usr/local/kafka/bin/kafka-storage.sh format -t ${uuid} -c /usr/local/kafka
 #sudo /usr/local/kafka/bin/kafka-server-start.sh  /usr/local/kafka/config/kraft/server.properties
 
 
-#todo Kafka Raft模式启动【不依赖zookeeper】
+
 
 #
 ## 使用 docker安装mysql, logiKM需要
