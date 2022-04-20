@@ -28,8 +28,15 @@ gitlab_rails['omniauth_providers'] = [
                 'token_url' => 'http://192.168.168.149:8001/serv/index.php?c=oauth2&a=getTokenByCode',
                 'user_info_url' => 'http://192.168.168.149:8001?user_info_url'                                       
         },
-        'access_type' => 'offline',
-        'approval_prompt' => '',
+        'user_response_structure' => {
+                'root_path' => [],
+                'id_path' => ['data', 'username'],
+                'attributes' => {
+                        'username' => ['data', 'username'],
+                        'name' => ['data', 'name'],
+                        'email' => ['data','email']
+                }
+        },
         'strategy_class' => 'OmniAuth::Strategies::OAuth2Generic'
       }
    }
