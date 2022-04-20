@@ -1,10 +1,10 @@
-#! /bin/sh
+#! /bin/bash
 
 curl -L https://dlcdn.apache.org/kafka/3.1.0/kafka_2.13-3.1.0.tgz -o kafka_2.13-3.1.0.tgz
 sudo tar -zxvf kafka_2.13-3.1.0.tgz -C /usr/local/ && sudo mv /usr/local/kafka_* /usr/local/kafka
 
 # 生成一个唯一的集群Id
-sudo /usr/local/kafka/bin/kafka-storage.sh random-uuid > uuid.txt
+sudo /usr/local/kafka/bin/kafka-storage.sh random-uuid | sudo tee uuid.txt
 
 sudo mkdir /etc/rsync
 #sudo touch /etc/rsync/rsyncd.conf

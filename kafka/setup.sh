@@ -18,8 +18,11 @@ sudo systemctl restart sshd
 
 HOST_IP=$(ip address |  grep 'global.*eth1' | awk '{print $2}' | sed -e 's/\/24//')
 
-sudo yum install -y java-11-openjdk
+sudo yum install -y java-11-openjdk vim
 
+# shellcheck disable=SC2086
+# shellcheck disable=SC2046
+sudo sed -i 's/\r//' /vagrant/$(hostname -f).sh
 # shellcheck disable=SC2086
 # shellcheck disable=SC2046
 sudo bash /vagrant/$(hostname -f).sh
