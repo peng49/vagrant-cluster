@@ -1,4 +1,5 @@
-#! /bin/sh
+#! /bin/bash
+
 # 设置时区
 sudo timedatectl set-timezone Asia/Shanghai
 
@@ -17,28 +18,11 @@ sudo sed -ri 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh
 sudo sed -ri 's/#PermitRootLogin yes/PermitRootLogin yes/g' /etc/ssh/sshd_config
 sudo systemctl restart sshd
 
-
-
-if [ ${HOSTNAME} == 'jenkins' ];
-then
-  # install jenkins
-  # https://www.jenkins.io/doc/book/installing/linux/#red-hat-centos
-  # 设置时区
-sudo timedatectl set-timezone Asia/Shanghai
-
-sudo curl -L -o /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
-  sudo sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
-  sudo yum -y upgrade
-  sudo yum install -y java-11-openjdk
-  sudo yum install -y jenkins
-  sudo systemctl daemon-reload
-
-  sudo systemctl start jenkins
-  #sudo systemctl enable jenkins
-  sudo /sbin/chkconfig jenkins on
-
-  #jenkins 初始密码
-  echo -n "jenkins init password: " && sudo cat /var/lib/jenkins/secrets/initialAdminPassword
-fi
+# shellcheck disable=SC2086
+# shellcheck disable=SC2046
+sudo sed -i 's/\r//' /vagrant/$(hostname -f).sh
+# shellcheck disable=SC2086
+# shellcheck disable=SC2046
+sudo bash /vagrant/$(hostname -f).sh
 
 

@@ -1,10 +1,7 @@
-#! /bin/sh
+#! /bin/bash
 
 # install jenkins
 # https://www.jenkins.io/doc/book/installing/linux/#red-hat-centos
-# 设置时区
-sudo timedatectl set-timezone Asia/Shanghai
-
 sudo curl -L -o /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
 sudo sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
 sudo yum -y upgrade
@@ -13,5 +10,9 @@ sudo yum install -y jenkins
 sudo systemctl daemon-reload
 
 sudo systemctl start jenkins
+
 #sudo systemctl enable jenkins
 sudo /sbin/chkconfig jenkins on
+
+#jenkins 初始密码
+echo -n "jenkins init password: " && sudo cat /var/lib/jenkins/secrets/initialAdminPassword
