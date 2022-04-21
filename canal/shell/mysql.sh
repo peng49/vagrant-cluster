@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 # install docker
 sudo yum remove docker \
                   docker-client \

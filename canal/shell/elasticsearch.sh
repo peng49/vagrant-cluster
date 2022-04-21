@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 # 安装 elasticsearch
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html

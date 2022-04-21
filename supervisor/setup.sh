@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 # 设置时区
 sudo timedatectl set-timezone Asia/Shanghai
 

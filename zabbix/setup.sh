@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 # 设置时区
 sudo timedatectl set-timezone Asia/Shanghai
 
@@ -27,7 +27,8 @@ sudo yum install -y ntp && \
 
 
 
-if [ ${HOSTNAME} == 'zabbix' ];
+# shellcheck disable=SC2039
+if [ "${HOSTNAME}" == 'zabbix' ];
 then
   # 安装最新版本的docker,harbor 依赖docker构建
 

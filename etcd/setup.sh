@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 # 设置时区
 sudo timedatectl set-timezone Asia/Shanghai
 
@@ -22,7 +22,5 @@ sudo systemctl start etcd &
 
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
-
-
 
 
