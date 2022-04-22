@@ -1,0 +1,32 @@
+stages:
+  - install
+  - build
+  - deploy
+
+install:
+  stage: install
+  only:
+    - main
+  script:
+    - echo 'install stage'
+  tags:
+    # 执行这个job的runner的tag
+    - test
+
+build2:
+  stage: build
+  only:
+    - main
+  script:
+    - echo "`date` 'build stage'" >> /home/gitlab-runner/build.txt
+  tags:
+    - test
+
+deploy:
+  stage: deploy
+  only:
+    - main
+  script:
+    - echo 'deploy stage'
+  tags:
+    - test

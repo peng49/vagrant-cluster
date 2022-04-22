@@ -42,3 +42,6 @@ gitlab_rails['omniauth_providers'] = [
    }
  ]
 ```
+
+### CI/CD
+[一个例子学会使用 gitlab runner 实现自动部署 附踩坑记录](https://juejin.cn/post/6844903937091321864)
