@@ -16,5 +16,5 @@ sudo systemctl restart sshd
 
 SCRIPT=/vagrant/shell/${HOSTNAME}.sh
 if [ -f "${SCRIPT}" ]; then
-  sudo sh ${SCRIPT}
+  sudo sh "${SCRIPT}"
 fi

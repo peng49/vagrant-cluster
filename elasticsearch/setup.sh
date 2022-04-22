@@ -10,5 +10,4 @@ sudo sed -ri 's/aliyuncs.com/aliyun.com/g' /etc/yum.repos.d/CentOS-Base.repo
 
 sudo yum clean all && sudo yum makecache
 
-# shellcheck disable=SC2046
-sudo bash /vagrant/$(hostname -f).sh
+sudo bash /vagrant/"$(hostname -f)".sh

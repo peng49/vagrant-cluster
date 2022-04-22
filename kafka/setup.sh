@@ -20,19 +20,17 @@ HOST_IP=$(ip address |  grep 'global.*eth1' | awk '{print $2}' | sed -e 's/\/24/
 
 sudo yum install -y java-11-openjdk vim
 
-# shellcheck disable=SC2086
-# shellcheck disable=SC2046
-sudo sed -i 's/\r//' /vagrant/$(hostname -f).sh
-# shellcheck disable=SC2086
-# shellcheck disable=SC2046
-sudo bash /vagrant/$(hostname -f).sh
+sudo sed -i 's/\r//' /vagrant/"$(hostname -f)".sh
+
+sudo bash /vagrant/"$(hostname -f)".sh
 
 # Kafka Raft模式启动【不依赖zookeeper】
 
 # https://github.com/apache/kafka/blob/trunk/config/kraft/README.md
 # 设置node.id
 # shellcheck disable=SC2039
-id=$(echo "${HOSTNAME}" | sed -e 's/kafka0//g')
+
+id=${HOSTNAME//kafka0/}
 sudo sed -ie "s/node.id=.*/node.id=${id}/" /usr/local/kafka/config/kraft/server.properties
 # 设置投票节点
 sudo sed -ie "s/controller.quorum.voters=.*/controller.quorum.voters=1@192.165.34.91:9093,2@192.165.34.92:9093,3@192.165.34.93:9093/" /usr/local/kafka/config/kraft/server.properties
