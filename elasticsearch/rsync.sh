@@ -47,4 +47,9 @@ EOF
 
 sudo setenforce 0
 sudo sed -ie "s/^SELINUX=.*/SELINUX=disabled/" /etc/selinux/config
+
+# 指定配置文件并重启
+sudo sed -ie "s/OPTIONS=\"/OPTIONS=\"--config \/etc\/rsyncd.conf/" /etc/sysconfig/rsyncd
 sudo systemctl restart rsyncd
+
+sudo systemctl enable rsyncd

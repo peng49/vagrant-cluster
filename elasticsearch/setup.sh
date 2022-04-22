@@ -10,4 +10,8 @@ sudo sed -ri 's/aliyuncs.com/aliyun.com/g' /etc/yum.repos.d/CentOS-Base.repo
 
 sudo yum clean all && sudo yum makecache
 
+# 安装 shasum 命令对应的库
+sudo yum install perl-Digest-SHA -y
+
+sudo sed -i 's/\r//' /vagrant/"$(hostname -f)".sh
 sudo bash /vagrant/"$(hostname -f)".sh
