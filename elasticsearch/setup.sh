@@ -15,3 +15,6 @@ sudo yum install perl-Digest-SHA -y
 
 sudo sed -i 's/\r//' /vagrant/"$(hostname -f)".sh
 sudo bash /vagrant/"$(hostname -f)".sh
+
+sudo systemctl start elasticsearch &
+sudo systemctl enable elasticsearch
