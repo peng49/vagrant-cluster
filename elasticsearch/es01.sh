@@ -32,4 +32,23 @@ sudo sed -ie 's/#network.host:.*/network.host: 0.0.0.0/' /etc/elasticsearch/elas
 sudo sed -ie 's/#discovery.seed_hosts:.*/discovery.seed_hosts: ["192.168.34.11:9300","192.168.34.12:9300","192.168.34.13:9300"]/' /etc/elasticsearch/elasticsearch.yml
 
 
-# todo install kibana
+# install kibana
+cat <<EOF | sudo tee /etc/yum.repos.d/kibana.repo
+[kibana-7.x]
+name=Kibana repository for 7.x packages
+baseurl=https://artifacts.elastic.co/packages/7.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+EOF
+sudo yum install -y kibana
+
+# 设置kibana
+sudo sed -i 's/#server.host:.*$/server.host: "0.0.0.0"/' /etc/kibana/kibana.yml
+sudo sed -i 's/#server.port:/server.port:/' /etc/kibana/kibana.yml
+sudo sed -i 's/#elasticsearch.hosts:.*$/elasticsearch.hosts: ["http:\/\/192.168.34.11:9200","http:\/\/192.168.34.12:9200","http:\/\/192.168.34.13:9200"]/' /etc/kibana/kibana.yml
+
+sudo systemctl start kibana
+sudo systemctl enable kibana
