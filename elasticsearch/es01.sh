@@ -26,11 +26,23 @@ sudo sed -ie "/node.name:.*/ a\node.master: true\nnode.data: true" /etc/elastics
 # todo 设置数据保存路径
 
 #设置网络
-sudo sed -ie 's/#network.host:.*/network.host: 0.0.0.0/' /etc/elasticsearch/elasticsearch.yml
+sudo sed -ie "s/#network.host:.*/network.host: $(ip address |  grep 'global.*eth1' | awk '{print $2}' | sed -e 's/\/24//')/" /etc/elasticsearch/elasticsearch.yml
 
 # 设置集群配置
 sudo sed -ie 's/#discovery.seed_hosts:.*/discovery.seed_hosts: ["192.168.34.11:9300","192.168.34.12:9300","192.168.34.13:9300"]/' /etc/elasticsearch/elasticsearch.yml
+sudo sed -ie 's/#cluster.initial_master_nodes:.*/cluster.initial_master_nodes: ["es01", "es02", "es03"]/' /etc/elasticsearch/elasticsearch.yml
 
+
+# 生成CA证书
+echo -e "\n" | sudo /usr/share/elasticsearch/bin/elasticsearch-certutil ca --pass ""
+
+sudo mv /usr/share/elasticsearch/elastic-stack-ca.p12 /etc/elasticsearch/config/
+sudo cp /etc/elasticsearch/config/elastic-stack-ca.p12 /home/vagrant/downloads/
+# 根据证书生成认证文件
+echo -e "\n" | sudo /usr/share/elasticsearch/bin/elasticsearch-certutil cert --ca /etc/elasticsearch/config/elastic-stack-ca.p12 --out /home/vagrant/downloads/elastic-certificates.p12 --pass ""
+
+#sudo chown elasticsearch:elasticsearch /home/vagrant/downloads/elastic-certificates.p12
+sudo chmod +r /home/vagrant/downloads/ -R
 
 # install kibana
 cat <<EOF | sudo tee /etc/yum.repos.d/kibana.repo
@@ -50,5 +62,5 @@ sudo sed -i 's/#server.host:.*$/server.host: "0.0.0.0"/' /etc/kibana/kibana.yml
 sudo sed -i 's/#server.port:/server.port:/' /etc/kibana/kibana.yml
 sudo sed -i 's/#elasticsearch.hosts:.*$/elasticsearch.hosts: ["http:\/\/192.168.34.11:9200","http:\/\/192.168.34.12:9200","http:\/\/192.168.34.13:9200"]/' /etc/kibana/kibana.yml
 
-sudo systemctl start kibana
-sudo systemctl enable kibana
+#sudo systemctl start kibana
+#sudo systemctl enable kibana

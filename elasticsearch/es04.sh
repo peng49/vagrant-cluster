@@ -17,7 +17,7 @@ sudo sed -ie "/node.name:.*/ a\node.master: false\nnode.data: true" /etc/elastic
 
 
 #设置网络
-sudo sed -ie 's/#network.host:.*/network.host: 0.0.0.0/' /etc/elasticsearch/elasticsearch.yml
+sudo sed -ie "s/#network.host:.*/network.host: $(ip address |  grep 'global.*eth1' | awk '{print $2}' | sed -e 's/\/24//')/" /etc/elasticsearch/elasticsearch.yml
 # network.publish_host 是群集中的其他节点将与之通信的主机
 sudo sed -ie "/network.host:.*/ a\network.publish_host: $(ip address |  grep 'global.*eth1' | awk '{print $2}' | sed -e 's/\/24//')" /etc/elasticsearch/elasticsearch.yml
 

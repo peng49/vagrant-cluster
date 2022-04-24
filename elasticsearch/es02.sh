@@ -18,7 +18,7 @@ sudo sed -ie "s/#node.name:.*/node.name: $(hostname -f)/" /etc/elasticsearch/ela
 sudo sed -ie "/node.name:.*/ a\node.master: true\nnode.data: true" /etc/elasticsearch/elasticsearch.yml
 
 #设置网络
-sudo sed -ie 's/#network.host:.*/network.host: 0.0.0.0/' /etc/elasticsearch/elasticsearch.yml
+sudo sed -ie "s/#network.host:.*/network.host: $(ip address |  grep 'global.*eth1' | awk '{print $2}' | sed -e 's/\/24//')/" /etc/elasticsearch/elasticsearch.yml
 
 # 设置集群配置
 sudo sed -ie 's/#discovery.seed_hosts:.*/discovery.seed_hosts: ["192.168.34.11:9300","192.168.34.12:9300","192.168.34.13:9300"]/' /etc/elasticsearch/elasticsearch.yml
