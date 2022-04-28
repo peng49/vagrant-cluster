@@ -58,8 +58,10 @@ EOF
 sudo yum install -y kibana
 
 # 设置kibana
-sudo sed -i 's/#server.host:.*$/server.host: "0.0.0.0"/' /etc/kibana/kibana.yml
 sudo sed -i 's/#server.port:/server.port:/' /etc/kibana/kibana.yml
+sudo sed -i 's/#server.host:.*$/server.host: "0.0.0.0"/' /etc/kibana/kibana.yml
+# 访问kibana的地址，不能以 / 结尾
+sudo sed -i "s/#server.publicBaseUrl:.*/server.publicBaseUrl: \"http:\/\/$(ip address |  grep 'global.*eth1' | awk '{print $2}' | sed -e 's/\/24//'):5601\"/" /etc/kibana/kibana.yml
 sudo sed -i 's/#elasticsearch.hosts:.*$/elasticsearch.hosts: ["http:\/\/192.168.34.11:9200","http:\/\/192.168.34.12:9200","http:\/\/192.168.34.13:9200"]/' /etc/kibana/kibana.yml
 
 #sudo systemctl start kibana
