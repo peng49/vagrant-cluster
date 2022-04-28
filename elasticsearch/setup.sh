@@ -43,18 +43,3 @@ echo "" | sudo /usr/share/elasticsearch/bin/elasticsearch-keystore add xpack.sec
 
 sudo systemctl start elasticsearch
 sudo systemctl enable elasticsearch
-
-
-if [ "$(hostname -f)" = 'es01' ]; then
-  function backGenESPassAndSetKibana() {# 后台生成es初始密码,设置kibana
-      sleep 100 # 100秒后es01执行下面的代码
-      # 密码需要集群启动之后才可以生成
-      echo "Y" | sudo /usr/share/elasticsearch/bin/elasticsearch-setup-passwords auto | tee /home/vagrant/es.pass
-      pass=$(< /home/vagrant/es.pass tr '' '' | grep 'kibana_system = ' | awk '{print $4}')
-      sudo sed -ie 's/#elasticsearch.username/elasticsearch.username/' /etc/kibana/kibana.yml
-      sudo sed -ie "s/#elasticsearch.password.*/elasticsearch.password: ${pass}/" /etc/kibana/kibana.yml
-      sudo systemctl start kibana
-      sudo systemctl enable kibana
-  }
-  backGenESPassAndSetKibana &
-fi
