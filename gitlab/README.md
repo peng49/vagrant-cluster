@@ -13,7 +13,8 @@ vim
 https://docs.gitlab.com/ee/integration/oauth2_generic.html
 ```shell
 gitlab_rails['omniauth_enabled'] = true
-gitlab_rails['omniauth_block_auto_created_users'] = true
+gitlab_rails['omniauth_allow_single_sign_on'] = ['oauth2_generic']
+gitlab_rails['omniauth_block_auto_created_users'] = false
 gitlab_rails['omniauth_providers'] = [
    {
      'name' => 'oauth2_generic',
