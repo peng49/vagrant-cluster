@@ -8,7 +8,7 @@ sudo curl -L -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo
 sudo sed -ri 's/cloud.aliyuncs/aliyun/g' /etc/yum.repos.d/CentOS-Base.repo
 sudo sed -ri 's/aliyuncs.com/aliyun.com/g' /etc/yum.repos.d/CentOS-Base.repo
 
-sudo bash -c 'cat <<EOF > /etc/yum.repos.d/nginx.repo
+cat <<EOF | sudo tee /etc/yum.repos.d/nginx.repo
 [nginx-stable]
 name=nginx stable repo
 baseurl=http://nginx.org/packages/centos/\$releasever/\$basearch/
@@ -24,7 +24,7 @@ gpgcheck=1
 enabled=0
 gpgkey=https://nginx.org/keys/nginx_signing.key
 module_hotfixes=true
-EOF'
+EOF
 
 sudo yum clean all && sudo yum makecache
 
