@@ -10,6 +10,12 @@ sudo sed -ri 's/aliyuncs.com/aliyun.com/g' /etc/yum.repos.d/CentOS-Base.repo
 
 sudo yum clean all && sudo yum makecache
 
+# ssh允许密码登录
+sudo sed -ri 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+# 允许root用户ssh登录
+sudo sed -ri 's/#PermitRootLogin yes/PermitRootLogin yes/g' /etc/ssh/sshd_config
+sudo systemctl restart sshd
+
 # install some tools
 sudo yum install -y vim telnet bind-utils wget
 
