@@ -49,7 +49,7 @@ sudo docker exec -it mysql bash -c "echo 'binlog-do-db=syncdb' >> /etc/mysql/my.
 
 sudo docker exec -it mysql bash -c "mysql -uroot -proot@123 <<EOF
 create user 'canal'@'%' identified with mysql_native_password by 'Canal@ass01';
-grant replication slave on *.* to 'canal'@'%';
+grant replication slave,select on *.* to 'canal'@'%';
 flush privileges;
 create database syncdb;
 EOF"
@@ -64,6 +64,6 @@ sudo systemctl restart docker
 # 多行注释 方法二
 :<<!
 create user 'canal'@'%' identified with mysql_native_password by 'Canal@ass01';
-grant replication slave on *.* to 'canal'@'%';
+grant replication slave,select on *.* to 'canal'@'%';
 flush privileges;
 !
