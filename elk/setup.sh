@@ -63,6 +63,9 @@ sudo chmod +r /usr/local/openresty/nginx/logs/access.log
 sudo yum install --enablerepo=elastic -y logstash
 sudo sed -i 's/# path.config:.*$/path.config: "\/etc\/logstash\/conf.d\/*.conf"/' /etc/logstash/logstash.yml
 
+# install filebeat
+sudo yum install --enablerepo=elastic -y filebeat
+
 
 # logstash配置,读取nginx日志同步到elasticsearch
 sudo cp /vagrant/nginx.logstash.conf /etc/logstash/conf.d/
