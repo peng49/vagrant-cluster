@@ -77,3 +77,50 @@ ssh-copy-id -i ~/.ssh/id_rsa hadoop@"${IP}"
 hdfs namenode -format
 #启动 HDFS
 start-dfs.sh
+
+
+# 关闭安全模式 https://www.cnblogs.com/laoqing/p/15112134.html
+hdfs dfsadmin -safemode leave
+
+####################################### hbase 安装开始 ######################################
+# hbase 安装
+wget --no-check-certificate https://dlcdn.apache.org/hbase/2.4.13/hbase-2.4.13-bin.tar.gz &&
+  tar -xzvf hbase-2.4.13-bin.tar.gz &&
+  sudo mv hbase-2.4.13 /usr/local/hbase
+
+cat <<EOF | sudo tee -a /etc/profile
+export PATH=\$PATH:/usr/local/hbase/bin
+EOF
+
+sudo sed -i "28a export JAVA_HOME=${JAVA_HOME}" /usr/local/hbase/conf/hbase-env.sh
+
+echo "<?xml version=\"1.0\"?>
+<?xml-stylesheet type=\"text/xsl\" href=\"configuration.xsl\"?>
+<configuration>
+  <property>
+    <name>hbase.root.dir</name>
+    <value>hdfs://${IP}:9000/hbase</value>
+  </property>
+  <property>
+    <name>hbase.master.info.port</name>
+    <value>60010</value>
+  </property>
+  <property>
+    <name>hbase.wal.provider</name>
+    <value>filesystem</value>
+  </property>
+  <property>
+    <name>hbase.cluster.distributed</name>
+    <value>false</value>
+  </property>
+  <property>
+    <name>hbase.tmp.dir</name>
+    <value>./hbase</value>
+  </property>
+  <property>
+    <name>hbase.unsafe.stream.capability.enforce</name>
+    <value>false</value>
+  </property>
+</configuration>" | sudo tee /usr/local/hbase/conf/hbase-site.xml
+
+
