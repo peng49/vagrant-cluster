@@ -19,7 +19,7 @@ sudo systemctl restart sshd
 sudo yum install -y java-11-openjdk-devel vim wget
 
 wget --no-check-certificate https://dlcdn.apache.org/hadoop/common/hadoop-3.3.3/hadoop-3.3.3.tar.gz -O hadoop-3.3.3.tar.gz &&
-  tar -zxvf hadoop-3.3.3.tar.gz &&
+  tar -zxf hadoop-3.3.3.tar.gz &&
   sudo mv hadoop-3.3.3 /usr/local/hadoop
 
 #设置HADOOP_HOME JAVA_HOME
@@ -85,8 +85,10 @@ hdfs dfsadmin -safemode leave
 ####################################### hbase 安装开始 ######################################
 # hbase 安装
 wget --no-check-certificate https://dlcdn.apache.org/hbase/2.4.13/hbase-2.4.13-bin.tar.gz &&
-  tar -xzvf hbase-2.4.13-bin.tar.gz &&
+  tar -xzf hbase-2.4.13-bin.tar.gz &&
   sudo mv hbase-2.4.13 /usr/local/hbase
+
+sudo chown hadoop:hadoop -R /usr/local/hbase
 
 cat <<EOF | sudo tee -a /etc/profile
 export PATH=\$PATH:/usr/local/hbase/bin
