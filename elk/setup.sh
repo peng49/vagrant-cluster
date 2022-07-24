@@ -52,7 +52,7 @@ PATH=/usr/local/openresty/nginx/sbin:\$PATH
 EOF
 
 # 设置nginx.conf
-sudo cp /vagrant/nginx.conf usr/local/openresty/nginx/conf/nginx.conf
+sudo cp /vagrant/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 
 # 启动openresty生成日志文件
 sudo systemctl start openresty
@@ -62,22 +62,25 @@ sudo chmod +r /usr/local/openresty/nginx/logs/access.log
 # install logstash
 sudo yum install --enablerepo=elastic -y logstash
 sudo sed -i 's/# path.config:.*$/path.config: "\/etc\/logstash\/conf.d\/*.conf"/' /etc/logstash/logstash.yml
+# logstash配置,读取nginx日志同步到elasticsearch
+#sudo cp /vagrant/logstash.nginx.conf /etc/logstash/conf.d/
+sudo cp /vagrant/logstash.beats.conf /etc/logstash/conf.d/
 
 # install filebeat
 sudo yum install --enablerepo=elastic -y filebeat
+sudo cp /vagrant/filebeat.logstash.yml /etc/filebeat/filebeat.yml
 
-
-# logstash配置,读取nginx日志同步到elasticsearch
-sudo cp /vagrant/nginx.logstash.conf /etc/logstash/conf.d/
 
 sudo systemctl start elasticsearch
 sudo systemctl start kibana
 sudo systemctl start logstash
+sudo systemctl start filebeat
 
 sudo systemctl enable elasticsearch
 sudo systemctl enable kibana
 sudo systemctl enable logstash
 sudo systemctl enable openresty
+sudo systemctl enable filebeat
 
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld

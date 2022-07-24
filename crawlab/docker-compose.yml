@@ -50,8 +50,8 @@ services:
     image: tikazyq/crawlab:latest
     container_name: worker
     restart: always
-    command:
-      - pip install virtualenv virtualenvwrapper && bash -c "echo 'source /usr/local/bin/virtualenvwrapper.sh' >> /etc/bash.bashrc"
+#    command:
+#      - pip install virtualenv virtualenvwrapper && bash -c "echo 'source /usr/local/bin/virtualenvwrapper.sh' >> /etc/bash.bashrc"
     environment:
       CRAWLAB_SERVER_MASTER: "N"
       CRAWLAB_MONGO_HOST: "mongo"
