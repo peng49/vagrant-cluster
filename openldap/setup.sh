@@ -68,3 +68,40 @@ sudo ldapadd -Q -Y EXTERNAL -H ldapi:/// -f /vagrant/data/refint.ldif
 # 添加测试数据
 sudo ldapadd -x -D "cn=ldapadm,dc=fly-develop,dc=com" -w ldap@admin -f  /vagrant/data/base.ldif
 sudo ldapadd -x -D "cn=ldapadm,dc=fly-develop,dc=com" -w ldap@admin -f  /vagrant/data/groups.ldif
+
+# groupOfURLs 支持 https://github.com/osixia/docker-openldap/issues/355
+sudo ldapadd -Q -Y EXTERNAL -H ldapi:/// <<EOF
+dn: cn=dyngroup,cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: dyngroup
+olcObjectIdentifier: {0}NetscapeRoot 2.16.840.1.113730
+olcObjectIdentifier: {1}NetscapeLDAP NetscapeRoot:3
+olcObjectIdentifier: {2}NetscapeLDAPattributeType NetscapeLDAP:1
+olcObjectIdentifier: {3}NetscapeLDAPobjectClass NetscapeLDAP:2
+olcObjectIdentifier: {4}OpenLDAPExp11 1.3.6.1.4.1.4203.666.11
+olcObjectIdentifier: {5}DynGroupBase OpenLDAPExp11:8
+olcObjectIdentifier: {6}DynGroupAttr DynGroupBase:1
+olcObjectIdentifier: {7}DynGroupOC DynGroupBase:2
+olcAttributeTypes: {0}( NetscapeLDAPattributeType:198 NAME 'memberURL' DESC 'I
+ dentifies an URL associated with each member of a group. Any type of labeled
+ URL can be used.' SUP labeledURI )
+olcAttributeTypes: {1}( DynGroupAttr:1 NAME 'dgIdentity' DESC 'Identity to use
+  when processing the memberURL' SUP distinguishedName SINGLE-VALUE )
+olcAttributeTypes: {2}( DynGroupAttr:2 NAME 'dgAuthz' DESC 'Optional authoriza
+ tion rules that determine who is allowed to assume the dgIdentity' EQUALITY a
+ uthzMatch SYNTAX 1.3.6.1.4.1.4203.666.2.7 X-ORDERED 'VALUES' )
+olcObjectClasses: {0}( NetscapeLDAPobjectClass:33 NAME 'groupOfURLs' SUP top S
+ TRUCTURAL MUST cn MAY ( memberURL $ businessCategory $ description $ o $ ou $
+  owner $ seeAlso ) )
+olcObjectClasses: {1}( DynGroupOC:1 NAME 'dgIdentityAux' SUP top AUXILIARY MAY
+  ( dgIdentity $ dgAuthz ) )
+EOF
+
+# 测试 groupOfURLs
+sudo ldapadd -x -D "cn=ldapadm,dc=fly-develop,dc=com" -w ldap@admin <<EOF
+dn: cn=group_of_urls_example,ou=groups,dc=fly-develop,dc=com
+objectClass: groupOfURLs
+cn: group_of_urls_example
+description: Dynamic admins.
+memberURL: ldap:///ou=users,dc=fly-develop,dc=com??sub?(objectClass=inetOrgPerson)
+EOF
