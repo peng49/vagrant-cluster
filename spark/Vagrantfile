@@ -1,0 +1,58 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.require_version ">= 1.6.0"
+
+boxes = [
+    {
+        :name => "name01",
+        :eth1 => "192.168.35.11",
+        :mem => "4096",
+        :cpu => "4"
+    },
+    {
+        :name => "name02",
+        :eth1 => "192.168.35.12",
+        :mem => "2048",
+        :cpu => "2"
+    },
+    {
+        :name => "data01",
+        :eth1 => "192.168.35.13",
+        :mem => "2048",
+        :cpu => "2"
+    },
+    {
+        :name => "data02",
+        :eth1 => "192.168.35.14",
+        :mem => "2048",
+        :cpu => "2"
+    },
+    {
+        :name => "data03",
+        :eth1 => "192.168.35.15",
+        :mem => "2048",
+        :cpu => "2"
+    }
+]
+
+Vagrant.configure(2) do |config|
+
+  config.vm.box = "centos/7"
+  boxes.each do |opts|
+    config.vm.define opts[:name] do |config|
+      config.vm.hostname = opts[:name]
+      config.vm.box_check_update = false
+      config.vm.provider "vmware_fusion" do |v|
+        v.vmx["memsize"] = opts[:mem]
+        v.vmx["numvcpus"] = opts[:cpu]
+      end
+      config.vm.provider "virtualbox" do |v|
+        v.customize ["modifyvm", :id, "--memory", opts[:mem]]
+        v.customize ["modifyvm", :id, "--cpus", opts[:cpu]]
+      end
+      config.vm.network :private_network, ip: opts[:eth1]
+    end
+  end
+  config.vm.provision "shell", privileged: true, path: "./setup.sh"
+end
