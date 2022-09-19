@@ -59,6 +59,7 @@ PUT /_ilm/policy/access-logs-14days
 ```
 
 #### 创建模板,指定模板使用的ILM策略
+[Elasticsearch - mappings之dynamic的三种状态](https://www.cnblogs.com/Neeo/articles/10585035.html)
 ```shell
 POST /_index_template/logs-template
 {
@@ -83,7 +84,7 @@ POST /_index_template/logs-template
           "type": "integer"
         },
         "host": {
-          "type": "keyword"
+          "type": "object"
         },
         "type": {
           "type": "keyword"
