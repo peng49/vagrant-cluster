@@ -1,5 +1,7 @@
 [六千字呕心沥血深度总结，为您揭秘ClickHouse为什么查询这么快！](https://www.jianshu.com/p/140c677b2d46)
 
+[Clickhouse主键如何工作以及如何选择](https://medium.com/datadenys/how-clickhouse-primary-key-works-and-how-to-choose-it-4aaf3bf4a8b9)
+
 [Quick Start](https://clickhouse.com/docs/en/quick-start)
 
 [实操，ClickHouse高可用集群部署](https://blog.51cto.com/feko/2738319)

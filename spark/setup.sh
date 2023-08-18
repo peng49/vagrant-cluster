@@ -16,7 +16,7 @@ sudo sed -ri 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh
 sudo sed -ri 's/#PermitRootLogin yes/PermitRootLogin yes/g' /etc/ssh/sshd_config
 sudo systemctl restart sshd
 
-sudo yum install -y java-11-openjdk-devel vim wget sshpass
+sudo yum install -y java-1.8.0-openjdk-devel vim wget sshpass
 
 cat <<EOF | tee -a /etc/hosts
 192.168.35.11 name01
@@ -24,17 +24,22 @@ cat <<EOF | tee -a /etc/hosts
 192.168.35.13 data01
 192.168.35.14 data02
 192.168.35.15 data03
+192.168.35.16 hbase
 EOF
 
-#设置HADOOP_HOME JAVA_HOME
-JAVA_HOME=$(realpath /usr/bin/java | sed 's/bin\/java//')
-HADOOP_HOME=/usr/local/hadoop
+#设置 JAVA_HOME
+JAVA_HOME=$(realpath /usr/bin/java | sed 's/\/jre\/bin\/java//')
 
 cat <<EOF | sudo tee -a /etc/bashrc
 export JAVA_HOME=${JAVA_HOME}
-export HADOOP_HOME=${HADOOP_HOME}
-export PATH=\$PATH:\$HADOOP_HOME/bin:\$HADOOP_HOME/sbin
 EOF
 
-sudo sed -i 's/\r//' /vagrant/"$(hostname -f)".sh
-sudo bash /vagrant/"$(hostname -f)".sh
+# 新增一个用户 hadoop 并设置密码为 hadoop
+sudo useradd hadoop
+echo 'hadoop' | sudo passwd hadoop --stdin
+
+# 设置 hadoop 用户可以使用sudo
+sudo sed -i '100a hadoop  ALL=(ALL) NOPASSWD:ALL' /etc/sudoers
+
+#sudo sed -i 's/\r//' /vagrant/"$(hostname -f)".sh
+#sudo bash /vagrant/"$(hostname -f)".sh

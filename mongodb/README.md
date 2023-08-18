@@ -127,7 +127,16 @@ DB methods:
 指定数据库可读可写账号
 
 
-#### mongo 复制集
+#### docker启动复制集
+```shell
+openssl rand -base64 756 > mongo.key
+
+chmod 600 mongo.key
+```
+
+```shell
+docker run -it -d --name mongo-relicat-set -p 27017:27017 -v `pwd`/mongo.key:/data/configdb/mongo.key --restart always -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=Admin@123 mongo:4.4.6 mongod --replSet rs0  --keyFile /data/configdb/mongo.key
+```
 
 
 

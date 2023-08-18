@@ -84,23 +84,24 @@ hdfs dfsadmin -safemode leave
 
 ####################################### hbase 安装开始 ######################################
 # hbase 安装
-wget --no-check-certificate https://dlcdn.apache.org/hbase/2.4.13/hbase-2.4.13-bin.tar.gz &&
-  tar -xzf hbase-2.4.13-bin.tar.gz &&
-  sudo mv hbase-2.4.13 /usr/local/hbase
+wget --no-check-certificate https://dlcdn.apache.org/hbase/2.5.0/hbase-2.5.0-bin.tar.gz &&
+  tar -xzf hbase-2.5.0-bin.tar.gz &&
+  sudo mv hbase-2.5.0 /usr/local/hbase
 
 sudo chown hadoop:hadoop -R /usr/local/hbase
 
-cat <<EOF | sudo tee -a /etc/profile
+cat <<EOF | sudo tee -a /etc/bashrc
 export PATH=\$PATH:/usr/local/hbase/bin
 EOF
 
 sudo sed -i "28a export JAVA_HOME=${JAVA_HOME}" /usr/local/hbase/conf/hbase-env.sh
 
-echo "<?xml version=\"1.0\"?>
-<?xml-stylesheet type=\"text/xsl\" href=\"configuration.xsl\"?>
+cat <<EOF | sudo tee /usr/local/hbase/conf/hbase-site.xml
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <configuration>
   <property>
-    <name>hbase.root.dir</name>
+    <name>hbase.rootdir</name>
     <value>hdfs://${IP}:9000/hbase</value>
   </property>
   <property>
@@ -113,16 +114,13 @@ echo "<?xml version=\"1.0\"?>
   </property>
   <property>
     <name>hbase.cluster.distributed</name>
-    <value>false</value>
-  </property>
-  <property>
-    <name>hbase.tmp.dir</name>
-    <value>./hbase</value>
+    <value>true</value>
   </property>
   <property>
     <name>hbase.unsafe.stream.capability.enforce</name>
     <value>false</value>
   </property>
-</configuration>" | sudo tee /usr/local/hbase/conf/hbase-site.xml
+</configuration>
+EOF
 
 
